@@ -2,6 +2,8 @@ package no.uib.smo015.info233.oblig2.Interfaces;
 
 import java.util.List;
 
+import no.uib.smo015.info233.oblig2.Activity.Activity;
+
 import org.jsoup.nodes.Node;
 
 public interface ParserInterface {

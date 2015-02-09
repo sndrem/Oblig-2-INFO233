@@ -2,7 +2,7 @@ package no.uib.smo015.info233.oblig2.Parser;
 
 import java.util.List;
 
-import no.uib.smo015.info233.oblig2.Interfaces.Activity;
+import no.uib.smo015.info233.oblig2.Activity.Activity;
 import no.uib.smo015.info233.oblig2.Interfaces.ParserInterface;
 
 import org.jsoup.nodes.Node;

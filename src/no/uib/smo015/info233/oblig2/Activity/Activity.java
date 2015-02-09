@@ -1,13 +1,15 @@
 package no.uib.smo015.info233.oblig2.Activity;
 
-import java.io.Serializable;
+
 import java.util.Calendar;
 
 import no.uib.smo015.info233.oblig2.Interfaces.ActivityInterface;
 
 import org.jsoup.nodes.Node;
 
-public class Activity implements ActivityInterface, Serializable {
+public class Activity implements ActivityInterface {
+
+	private static final long serialVersionUID = -4962193791986602328L;
 
 	@Override
 	public Node getNode() {
