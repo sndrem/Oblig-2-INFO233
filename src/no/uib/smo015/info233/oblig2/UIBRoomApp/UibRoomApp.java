@@ -5,7 +5,7 @@ import no.uib.smo015.info233.oblig2.Parser.Parser;
 public class UibRoomApp {
 
 	public static void main(String[] args) {
-		Parser p = new Parser();
+		Parser p = new Parser("http://rom.app.uib.no/ukesoversikt/?entry=emne&input=info233");
 		p.docToLists();
 	}
 
