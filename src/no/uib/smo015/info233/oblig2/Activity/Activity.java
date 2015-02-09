@@ -14,11 +14,14 @@ public class Activity implements ActivityInterface, Serializable {
 	private String type;
 	private String room;
 	private String description;
+	private Calendar startTime, endTime;
 	
 	public Activity(String type, String room, String description){
 		this.type = type;
 		this.room = room;
 		this.description = description;
+		startTime = Calendar.getInstance();
+		endTime = Calendar.getInstance();
 	}
 
 	@Override
@@ -29,14 +32,12 @@ public class Activity implements ActivityInterface, Serializable {
 
 	@Override
 	public String getType() {
-		// TODO Implementer denne din latsabb
-		return null;
+		return this.type;
 	}
 
 	@Override
 	public String getRoom() {
-		// TODO Implementer denne din latsabb
-		return null;
+		return this.room;
 	}
 
 	@Override
@@ -53,7 +54,11 @@ public class Activity implements ActivityInterface, Serializable {
 
 	@Override
 	public String getDescription() {
-		// TODO Implementer denne din latsabb
+		return this.description;
+	}
+	
+	public String toString(){
+		// TODO Implementer en deilig toString metode her 
 		return null;
 	}
 

@@ -10,46 +10,54 @@ import no.uib.smo015.info233.oblig2.Interfaces.ParserInterface;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Node;
-import org.jsoup.select.NodeVisitor;
+import org.jsoup.select.Elements;
 
 public class Parser implements ParserInterface {
 	
 	private String url;
 	private Document rootDocument;
+	private Node root;
 	private List<Node> nodeList;
+	private List<Activity> listActivities;
+	private List<String> dateList;
 	
 	public Parser(String url){
 		this.url = url;
 		nodeList = new ArrayList<>();
+		listActivities = new ArrayList<>();
+		dateList = new ArrayList<>();
+		
 		try {
 			rootDocument = Jsoup.connect(url).get();
+			root = rootDocument.childNode(1);
 			System.out.println(rootDocument.title() + " sucessfully retrieved\n");
-//			System.out.println(rootDocument);
-//			System.out.println(rootDocument.child(0));
-//			nodesToList(rootDocument.childNode(0), null, nodeList);
-			rootDocument.traverse(new NodeVisitor() {
-			    public void head(Node node, int depth) {
-			        System.out.println("Entering tag: " + node.nodeName());
-			    }
-			    public void tail(Node node, int depth) {
-			        System.out.println("Exiting tag: " + node.nodeName());
-			    }
-			});
-			
+
+			nodesToList(root, null, nodeList);			
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("There was a problem retrieving the website");
 		}
-		
 	}
-
+	
 	/**
-	 * Method to retrieve a document
+	 * 
 	 */
 	@Override
 	public void docToLists() {
-				
+		Elements activity = rootDocument.getElementsByClass("week-data");
+		
+		for(int i = 0; i < activity.size(); i++){
+			Elements type = activity.get(i).getElementsByClass("activity");
+			Elements time = activity.get(i).getElementsByClass("time");
+			Elements desc = activity.get(i).getElementsByClass("item_desc");
+			Elements room = activity.get(i).getElementsByClass("item_room");
+			
+			String roomtitle = room.attr("title");
+			
+			listActivities.add(new Activity(type.text(), roomtitle, desc.text()));
+			dateList.add(time.text());
+			
+		}
 	}
 
 	/**
@@ -60,32 +68,31 @@ public class Parser implements ParserInterface {
 	 */
 	@Override
 	public List<Node> nodesToList(Node node , Node parent, List<Node> nodeList) {
-		// TODO Denne metoden skal være rekursiv
-		// Add the html tag the first time the method is executed
-		if (parent == null){
-			this.nodeList.add(node);
-			nodesToList(node, nodeList.get(0), nodeList);
+		
+		if(node.childNodeSize() > 0){
+			Node child = node.childNode(0);
+			while(child != null){
+				nodeList.add(child);
+				nodesToList(child, child.parentNode(), nodeList);
+				child = child.nextSibling();
+			}
 		}
-				
 		return nodeList;
 	}
 
 	@Override
 	public List<Node> getNodeList() {
-		// TODO Implementer denne din latsabb
-		return null;
+		return nodeList;
 	}
 
 	@Override
 	public List<Activity> getActivityList() {
-		// TODO Implementer denne din latsabb
-		return null;
+		return listActivities;
 	}
 
 	@Override
 	public List<String> getDateStringList() {
-		// TODO Implementer denne din latsabb
-		return null;
+		return dateList;
 	}
 
 }
