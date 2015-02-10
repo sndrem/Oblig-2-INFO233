@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import no.uib.smo015.info233.oblig2.Activity.Activity;
@@ -17,11 +16,10 @@ public class UibRoomApp {
 		Parser p = new Parser("http://rom.app.uib.no/ukesoversikt/?entry=emne&input=info233");
 		p.docToLists();
 		
-		List<String> timeList = new ArrayList<String>();
-		timeList =  p.getDateStringList();
+		List<Activity> list = p.getActivityList();
 		
-		for(String time : timeList){
-			System.out.println(time);
+		for (Activity a : list){
+			System.out.println(a);
 		}
 				
 	}

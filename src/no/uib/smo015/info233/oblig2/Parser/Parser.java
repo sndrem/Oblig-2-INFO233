@@ -15,7 +15,7 @@ import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 
 public class Parser implements ParserInterface {
-	
+
 	private String url;
 	private Document rootDocument;
 	private Node root;
@@ -23,32 +23,32 @@ public class Parser implements ParserInterface {
 	private List<Activity> listActivities;
 	private List<String> dateList;
 	private Map<Integer, Activity> weekMap;
-	
+
 	public Parser(String url){
 		this.url = url;
 		nodeList = new ArrayList<>();
 		listActivities = new ArrayList<>();
 		dateList = new ArrayList<>();
 		weekMap = new HashMap<>();
-		
+
 		try {
 			rootDocument = Jsoup.connect(url).get();
 			root = rootDocument.childNode(1);
 			System.out.println(rootDocument.title() + " sucessfully retrieved\n");
-			
-			
+
+
 		} catch (IOException e) {
 			System.out.println("There was a problem retrieving the website");
 		}
 	}
-	
+
 	/**
-	 * 
+	 * Method to create the nodelist, activityList and dateToStringList
 	 */
 	@Override
 	public void docToLists() {
 		nodesToList(root, null, nodeList);
-	
+
 		for (Node node : nodeList){
 			if(node.attr("class").equals("week-data")){
 				nodeToActivity(node);
@@ -56,23 +56,23 @@ public class Parser implements ParserInterface {
 			// TODO Implementer denne 
 			nodeToDateStringList(node);
 		}
-		
-//		Elements activity = rootDocument.getElementsByClass("week-data");
-//		Elements days = rootDocument.getElementsByClass("week-header");
-//		Elements subject = rootDocument.getElementsByClass("emnekode");
-//		Elements week = rootDocument.getElementsByClass("uke");
-//			
-//		for(int i = 0; i < activity.size(); i++){
-//			Elements type = activity.get(i).getElementsByClass("activity");
-//			Elements time = activity.get(i).getElementsByClass("time");
-//			Elements desc = activity.get(i).getElementsByClass("item_desc");
-//			Elements room = activity.get(i).getElementsByClass("item_room");
-//			
-//			String roomtitle = room.attr("title");
-//			
-//			listActivities.add(new Activity(type.text(), roomtitle, desc.text()));
-//			dateList.add(time.text());
-//		}
+
+		//		Elements activity = rootDocument.getElementsByClass("week-data");
+		//		Elements days = rootDocument.getElementsByClass("week-header");
+		//		Elements subject = rootDocument.getElementsByClass("emnekode");
+		//		Elements week = rootDocument.getElementsByClass("uke");
+		//			
+		//		for(int i = 0; i < activity.size(); i++){
+		//			Elements type = activity.get(i).getElementsByClass("activity");
+		//			Elements time = activity.get(i).getElementsByClass("time");
+		//			Elements desc = activity.get(i).getElementsByClass("item_desc");
+		//			Elements room = activity.get(i).getElementsByClass("item_room");
+		//			
+		//			String roomtitle = room.attr("title");
+		//			
+		//			listActivities.add(new Activity(type.text(), roomtitle, desc.text()));
+		//			dateList.add(time.text());
+		//		}
 	}
 
 	/**
@@ -81,18 +81,23 @@ public class Parser implements ParserInterface {
 	 * TODO Denne virker ikke. Fiks den
 	 */
 	private void nodeToDateStringList(Node node) {
-		List<Node> times = new ArrayList<>();
-		nodesToList(node, node.parent(), times);
-		String timeString = "";
-		
-		for(Node time : times){
-			if(time.attr("class").equals("week-header")){
-				
-				timeString = "fuck off";				
-			} 
-		}
-		
-		dateList.add(timeString);
+//		List<Node> descendants = new ArrayList<>();
+//		nodesToList(node, node.parent(), descendants);
+//
+//		int index = 0;
+//		for(Node descendant : descendants){
+//			if(descendant.attr("class").equals("week-header")){
+//				List<Node> babies = descendant.childNodes();
+//				for(Node n : babies){
+//					System.out.println(n.nodeName());
+//					if(n instanceof TextNode){
+//						TextNode tnode = (TextNode) descendant.childNode(0);
+//						System.out.println("Index " + index + " "  + tnode.text());
+//					} 
+//				}
+//			}
+//			index++;
+//		}
 	}
 
 	/**
@@ -103,7 +108,7 @@ public class Parser implements ParserInterface {
 		List<Node> descendants = new ArrayList<>();
 		nodesToList(node, node.parent(), descendants);
 		String type = "", room = "", description = "";
-		
+
 		for(Node descendant : descendants){
 			if(descendant.attr("class").equals("activity")){
 				TextNode textNode = (TextNode) descendant.childNode(0);
@@ -115,9 +120,8 @@ public class Parser implements ParserInterface {
 				room = descendant.attr("title");	
 			}
 		}
-		
+
 		listActivities.add(new Activity(node, type, room, description));
-		
 	}
 
 	/**
@@ -128,7 +132,7 @@ public class Parser implements ParserInterface {
 	 */
 	@Override
 	public List<Node> nodesToList(Node node , Node parent, List<Node> nodeList) {
-		
+
 		if(node.childNodeSize() > 0){
 			Node child = node.childNode(0);
 			while(child != null){
