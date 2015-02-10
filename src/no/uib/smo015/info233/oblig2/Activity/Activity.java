@@ -15,19 +15,20 @@ public class Activity implements ActivityInterface, Serializable {
 	private String room;
 	private String description;
 	private Calendar startTime, endTime;
+	private Node activityNode;
 	
-	public Activity(String type, String room, String description){
+	public Activity(Node activityNode, String type, String room, String description){
 		this.type = type;
 		this.room = room;
 		this.description = description;
+		this.setActivityNode(activityNode);
 		startTime = Calendar.getInstance();
 		endTime = Calendar.getInstance();
 	}
 
 	@Override
 	public Node getNode() {
-		// TODO Implementer denne din latsabb
-		return null;
+		return activityNode;
 	}
 
 	@Override
@@ -57,11 +58,18 @@ public class Activity implements ActivityInterface, Serializable {
 		return this.description;
 	}
 	
+	public Node getActivityNode() {
+		return activityNode;
+	}
+
+	public void setActivityNode(Node activityNode) {
+		this.activityNode = activityNode;
+	}
+
 	public String toString(){
-		// TODO Implementer en deilig toString metode her 
-		return null;
+		String info = "Aktivitet " + type + " skjer på " + room 
+				+ " Beskrivelse: " + description;
+		return info;
 	}
 	
-	
-
 }

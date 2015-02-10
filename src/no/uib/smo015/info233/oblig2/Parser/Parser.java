@@ -12,7 +12,7 @@ import no.uib.smo015.info233.oblig2.Interfaces.ParserInterface;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Node;
-import org.jsoup.select.Elements;
+import org.jsoup.nodes.TextNode;
 
 public class Parser implements ParserInterface {
 	
@@ -35,8 +35,7 @@ public class Parser implements ParserInterface {
 			rootDocument = Jsoup.connect(url).get();
 			root = rootDocument.childNode(1);
 			System.out.println(rootDocument.title() + " sucessfully retrieved\n");
-
-			nodesToList(root, null, nodeList);			
+			
 			
 		} catch (IOException e) {
 			System.out.println("There was a problem retrieving the website");
@@ -48,22 +47,77 @@ public class Parser implements ParserInterface {
 	 */
 	@Override
 	public void docToLists() {
-		Elements activity = rootDocument.getElementsByClass("week-data");
-		Elements days = rootDocument.getElementsByClass("week-header");
-		Elements subject = rootDocument.getElementsByClass("emnekode");
-		Elements week = rootDocument.getElementsByClass("uke");
-			
-		for(int i = 0; i < activity.size(); i++){
-			Elements type = activity.get(i).getElementsByClass("activity");
-			Elements time = activity.get(i).getElementsByClass("time");
-			Elements desc = activity.get(i).getElementsByClass("item_desc");
-			Elements room = activity.get(i).getElementsByClass("item_room");
-			
-			String roomtitle = room.attr("title");
-			
-			listActivities.add(new Activity(type.text(), roomtitle, desc.text()));
-			dateList.add(time.text());
+		nodesToList(root, null, nodeList);
+	
+		for (Node node : nodeList){
+			if(node.attr("class").equals("week-data")){
+				nodeToActivity(node);
+			} else if (node.attr("class").equals("week-header"));
+			// TODO Implementer denne 
+			nodeToDateStringList(node);
 		}
+		
+//		Elements activity = rootDocument.getElementsByClass("week-data");
+//		Elements days = rootDocument.getElementsByClass("week-header");
+//		Elements subject = rootDocument.getElementsByClass("emnekode");
+//		Elements week = rootDocument.getElementsByClass("uke");
+//			
+//		for(int i = 0; i < activity.size(); i++){
+//			Elements type = activity.get(i).getElementsByClass("activity");
+//			Elements time = activity.get(i).getElementsByClass("time");
+//			Elements desc = activity.get(i).getElementsByClass("item_desc");
+//			Elements room = activity.get(i).getElementsByClass("item_room");
+//			
+//			String roomtitle = room.attr("title");
+//			
+//			listActivities.add(new Activity(type.text(), roomtitle, desc.text()));
+//			dateList.add(time.text());
+//		}
+	}
+
+	/**
+	 * Method to add a timestring to the dateStringList
+	 * @param node
+	 * TODO Denne virker ikke. Fiks den
+	 */
+	private void nodeToDateStringList(Node node) {
+		List<Node> times = new ArrayList<>();
+		nodesToList(node, node.parent(), times);
+		String timeString = "";
+		
+		for(Node time : times){
+			if(time.attr("class").equals("week-header")){
+				
+				timeString = "fuck off";				
+			} 
+		}
+		
+		dateList.add(timeString);
+	}
+
+	/**
+	 * Method to add an activity to the activity list
+	 * @param node
+	 */
+	private void nodeToActivity(Node node) {
+		List<Node> descendants = new ArrayList<>();
+		nodesToList(node, node.parent(), descendants);
+		String type = "", room = "", description = "";
+		
+		for(Node descendant : descendants){
+			if(descendant.attr("class").equals("activity")){
+				TextNode textNode = (TextNode) descendant.childNode(0);
+				type = textNode.text();
+			} else if(descendant.attr("class").equals("item_desc")){
+				TextNode textNode = (TextNode) descendant.childNode(0);
+				description = textNode.text();
+			} else if(descendant.hasAttr("title")){
+				room = descendant.attr("title");	
+			}
+		}
+		
+		listActivities.add(new Activity(node, type, room, description));
+		
 	}
 
 	/**
