@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.util.List;
 
 import no.uib.smo015.info233.oblig2.Activity.Activity;
+import no.uib.smo015.info233.oblig2.GUI.Gui;
 import no.uib.smo015.info233.oblig2.Parser.Parser;
 
 public class UibRoomApp {
@@ -21,6 +22,8 @@ public class UibRoomApp {
 		for (Activity a : list){
 			System.out.println(a);
 		}
+		
+		Gui g = new Gui();
 				
 	}
 	
