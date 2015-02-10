@@ -2,7 +2,9 @@ package no.uib.smo015.info233.oblig2.Parser;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import no.uib.smo015.info233.oblig2.Activity.Activity;
 import no.uib.smo015.info233.oblig2.Interfaces.ParserInterface;
@@ -20,12 +22,14 @@ public class Parser implements ParserInterface {
 	private List<Node> nodeList;
 	private List<Activity> listActivities;
 	private List<String> dateList;
+	private Map<Integer, Activity> weekMap;
 	
 	public Parser(String url){
 		this.url = url;
 		nodeList = new ArrayList<>();
 		listActivities = new ArrayList<>();
 		dateList = new ArrayList<>();
+		weekMap = new HashMap<>();
 		
 		try {
 			rootDocument = Jsoup.connect(url).get();
@@ -45,7 +49,10 @@ public class Parser implements ParserInterface {
 	@Override
 	public void docToLists() {
 		Elements activity = rootDocument.getElementsByClass("week-data");
-		
+		Elements days = rootDocument.getElementsByClass("week-header");
+		Elements subject = rootDocument.getElementsByClass("emnekode");
+		Elements week = rootDocument.getElementsByClass("uke");
+			
 		for(int i = 0; i < activity.size(); i++){
 			Elements type = activity.get(i).getElementsByClass("activity");
 			Elements time = activity.get(i).getElementsByClass("time");
@@ -56,7 +63,6 @@ public class Parser implements ParserInterface {
 			
 			listActivities.add(new Activity(type.text(), roomtitle, desc.text()));
 			dateList.add(time.text());
-			
 		}
 	}
 

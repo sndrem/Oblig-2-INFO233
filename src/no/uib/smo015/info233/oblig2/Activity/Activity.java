@@ -61,5 +61,7 @@ public class Activity implements ActivityInterface, Serializable {
 		// TODO Implementer en deilig toString metode her 
 		return null;
 	}
+	
+	
 
 }
