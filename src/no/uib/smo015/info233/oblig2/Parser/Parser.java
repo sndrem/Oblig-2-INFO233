@@ -3,9 +3,7 @@ package no.uib.smo015.info233.oblig2.Parser;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import no.uib.smo015.info233.oblig2.Activity.Activity;
 import no.uib.smo015.info233.oblig2.Interfaces.ParserInterface;
@@ -30,7 +28,6 @@ public class Parser implements ParserInterface, Serializable {
 	private List<Node> nodeList;
 	private List<Activity> listActivities;
 	private List<String> dateList;
-	private Map<Node, String> weekMap;
 
 	/**
 	 * Constructor for the Parser class
@@ -41,11 +38,15 @@ public class Parser implements ParserInterface, Serializable {
 		nodeList = new ArrayList<>();
 		listActivities = new ArrayList<>();
 		dateList = new ArrayList<>();
-		weekMap = new HashMap<>();
 		connect(url);
 		docToLists();
 	}
 
+	/**
+	 * Method to connect to the the given url and retrieve the data
+	 * @param url
+	 * @return true if it successfully connects, false otherwise
+	 */
 	public boolean connect(String url) {
 		try {
 			rootDocument = Jsoup.connect(url).get();
@@ -92,6 +93,7 @@ public class Parser implements ParserInterface, Serializable {
 		//		}
 	}
 
+	
 	/**
 	 * Method to add a timestring to the dateStringList
 	 * @param node
@@ -161,6 +163,15 @@ public class Parser implements ParserInterface, Serializable {
 	public List<Activity> getActivityList() {
 		return listActivities;
 	}
+	
+	/**
+	 * Method to add an activity to the activitylist
+	 * @param activity An activity to be added
+	 */
+	public void addActivity(Activity activity){
+		listActivities.add(activity);
+	}
+	
 
 	@Override
 	public List<String> getDateStringList() {

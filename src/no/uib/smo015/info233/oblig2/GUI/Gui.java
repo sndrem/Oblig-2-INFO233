@@ -5,10 +5,6 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowListener;
-import java.io.Serializable;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -20,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import no.uib.smo015.info233.oblig2.Activity.Activity;
+import no.uib.smo015.info233.oblig2.Events.WindowEvent;
 import no.uib.smo015.info233.oblig2.Parser.Parser;
 
 public class Gui extends JFrame {
@@ -88,18 +85,10 @@ public class Gui extends JFrame {
 		listModel = new DefaultListModel<Activity>();
 		activityList = new JList<>(listModel);
 		JScrollPane listScrollPane = new JScrollPane(activityList);
-
-		populateList(parser, listModel);
-
 		centerPanel.add(listScrollPane);		
 	}
 
-	private void populateList(Parser parser, DefaultListModel<Activity> listModel) {
-		activityDataList = parser.getActivityList();
-		for(Activity a : activityDataList){
-			listModel.addElement(a);
-		}
-	}
+	
 
 	/**
 	 * Method to create the panels
@@ -122,7 +111,7 @@ public class Gui extends JFrame {
 		String[] topics = {"info233", "info110", "info132", "info262", "info216"};
 		searchComboBox = new JComboBox<>(topics);
 		topPanel.add(searchComboBox);
-		Event e = new Event();
+		Event e = new Event(this);
 		searchComboBox.addActionListener(e);
 	}
 
@@ -134,6 +123,9 @@ public class Gui extends JFrame {
 		bottomPanel.add(urlLabel);
 	}
 
+	/**
+	 * Method to setup the frame
+	 */
 	private void setupFrame(){
 		// Set the bounds of the application
 		this.setBounds(new Rectangle(800, 500));
@@ -166,74 +158,130 @@ public class Gui extends JFrame {
 	}
 
 	/**
-	 * Class to represent the actionListener events
-	 * @author Sindre
-	 *
+	 * @return the topPanel
 	 */
-	private class Event implements ActionListener, Serializable {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if(e.getSource() == searchComboBox){
-				String searchTerm = (String) searchComboBox.getSelectedItem();
-				String searchUrl = "http://rom.app.uib.no/ukesoversikt/?entry=emne&input=" + searchTerm;
-				listModel.clear();
-				populateList(new Parser(searchUrl), listModel);
-				urlLabel.setText("Status: ok");	
-			}
-
-		}
-
+	public JPanel getTopPanel() {
+		return topPanel;
 	}
-	
+
 	/**
-	 * Class to take of the serialization of the program
+	 * @param topPanel the topPanel to set
 	 */
-	private class WindowEvent implements WindowListener, Serializable{
-
-		@Override
-		public void windowOpened(java.awt.event.WindowEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void windowClosing(java.awt.event.WindowEvent e) {
-//			UibRoomApp.saveFile(activityDataList, "testGui2");
-		}
-
-		@Override
-		public void windowClosed(java.awt.event.WindowEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void windowIconified(java.awt.event.WindowEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void windowDeiconified(java.awt.event.WindowEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void windowActivated(java.awt.event.WindowEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void windowDeactivated(java.awt.event.WindowEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-		
+	public void setTopPanel(JPanel topPanel) {
+		this.topPanel = topPanel;
 	}
 
+	/**
+	 * @return the bottomPanel
+	 */
+	public JPanel getBottomPanel() {
+		return bottomPanel;
+	}
+
+	/**
+	 * @param bottomPanel the bottomPanel to set
+	 */
+	public void setBottomPanel(JPanel bottomPanel) {
+		this.bottomPanel = bottomPanel;
+	}
+
+	/**
+	 * @return the centerPanel
+	 */
+	public JPanel getCenterPanel() {
+		return centerPanel;
+	}
+
+	/**
+	 * @param centerPanel the centerPanel to set
+	 */
+	public void setCenterPanel(JPanel centerPanel) {
+		this.centerPanel = centerPanel;
+	}
+
+	/**
+	 * @return the listModel
+	 */
+	public DefaultListModel<Activity> getListModel() {
+		return listModel;
+	}
+
+	/**
+	 * @param listModel the listModel to set
+	 */
+	public void setListModel(DefaultListModel<Activity> listModel) {
+		this.listModel = listModel;
+	}
+
+	/**
+	 * @return the activityList
+	 */
+	public JList<Activity> getActivityList() {
+		return activityList;
+	}
+
+	/**
+	 * @param activityList the activityList to set
+	 */
+	public void setActivityList(JList<Activity> activityList) {
+		this.activityList = activityList;
+	}
+
+	/**
+	 * @return the activityDataList
+	 */
+	public List<Activity> getActivityDataList() {
+		return activityDataList;
+	}
+
+	/**
+	 * @param activityDataList the activityDataList to set
+	 */
+	public void setActivityDataList(List<Activity> activityDataList) {
+		this.activityDataList = activityDataList;
+	}
+
+	/**
+	 * @return the parser
+	 */
+	public Parser getParser() {
+		return parser;
+	}
+
+	/**
+	 * @param parser the parser to set
+	 */
+	public void setParser(Parser parser) {
+		this.parser = parser;
+	}
+
+	/**
+	 * @return the searchComboBox
+	 */
+	public JComboBox<String> getSearchComboBox() {
+		return searchComboBox;
+	}
+
+	/**
+	 * @param searchComboBox the searchComboBox to set
+	 */
+	public void setSearchComboBox(JComboBox<String> searchComboBox) {
+		this.searchComboBox = searchComboBox;
+	}
+
+	/**
+	 * @return the urlLabel
+	 */
+	public JLabel getUrlLabel() {
+		return urlLabel;
+	}
+
+	/**
+	 * @param urlLabel the urlLabel to set
+	 */
+	public void setUrlLabel(JLabel urlLabel) {
+		this.urlLabel = urlLabel;
+	}
 }
 
 
