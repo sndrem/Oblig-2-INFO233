@@ -7,15 +7,16 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import no.uib.smo015.info233.oblig2.Activity.Activity;
@@ -28,51 +29,79 @@ public class Gui extends JFrame {
 	private JPanel centerPanel;
 	private DefaultListModel<Activity> listModel;
 	private JButton submitButton;
-	private List<Activity> activityList;
+	private JList<Activity> activityList;
+	private List<Activity> activityDataList;
 	private Parser parser;
+	private String[] columnHeader = new String[] {"Hvor", "Hva", "Start", "Slutt,", "Beskrivelse"};;
+	private Object[][] activities;
+	private ResultSet activityData;
+	
+//	private DefaultTableModel dTableModel = new DefaultTableModel(activities, columnHeader){
+//		       public Class getColumnClass(int column) {
+//		            Class returnValue;
+//			             
+//			            // Verifying that the column exists (index > 0 && index < number of columns
+//			             
+//			            if ((column >= 0) && (column < getColumnCount())) {
+//			              returnValue = getValueAt(0, column).getClass();
+//			            } else {
+//			                 
+//			              // Returns the class for the item in the column  
+//			                 
+//			              returnValue = Object.class;
+//			            }
+//			            return returnValue;
+//			          }
+//		        };
+	
 
-	public Gui(){
-		parser = new Parser("http://rom.app.uib.no/ukesoversikt/?entry=emne&input=info233");
-		activityList = parser.getActivityList();
+	public Gui(Parser p){
+		parser = p;
+		activityDataList = parser.getActivityList();
 		setupFrame();
 		createPanels();
 		setupTopPanel();
 //		Sets up a list of activities
-//		setupActivityList();
+		setupActivityList();
 		
-		createTable();
+//		createTable();
 		
 		this.setVisible(true);
 	}
 	
-	private void createTable() {
-		String[] weekDays = {"Hvor", 
-							"Hva",
-							"Når",
-							"Beskrivelse"};
-		Object[][] activities = {{"UPhil", "INFO233-lab", "Kl. 10.15-12.00", "Lab for nerder"}, 
-								{"SV Lite auditorium", "Forelesning", "KL 08.45 - 14.00", "Forelesning for morgenfugler"}};
-		
-		Object[][] realActivities = new Object[activityList.size()][activityList.size()];
-		
-		
-		
-	
-		JTable activityTable = new JTable(activities, weekDays);
-		JScrollPane tableScroll = new JScrollPane(activityTable);
-		centerPanel.add(tableScroll);
-	}
-
-//	/**
-//	 * Method to show the information for an activity
-//	 */
-//	private void setupActivityList() {
-//		listModel = new DefaultListModel<Activity>();
-//		activityList = new JList<>(listModel);
-//		JScrollPane listScrollPane = new JScrollPane(activityList);
-//		centerPanel.add(listScrollPane);		
+//	private void createTable() {
+//		
+//		
+//		for(Activity activity : activityList){
+//			activities = new Object[][] {{activity.getRoom(), activity.getType(), activity.getStartTimeString(),
+//									activity.getEndTimeString(), activity.getDescription()}};
+//		}
+//		
+//		Object[][] realActivities = new Object[activityList.size()][activityList.size()];
+//		JTable activityTable = new JTable(activities, columnHeader);
+//		JScrollPane tableScroll = new JScrollPane(activityTable);
+//		centerPanel.add(tableScroll);
 //	}
+
+	/**
+	 * Method to show the information for an activity
+	 */
+	private void setupActivityList() {
+		listModel = new DefaultListModel<Activity>();
+		activityList = new JList<>(listModel);
+		JScrollPane listScrollPane = new JScrollPane(activityList);
+		
+		populateList(listModel);
+		
+		centerPanel.add(listScrollPane);		
+	}
 	
+	private void populateList(DefaultListModel<Activity> listModel) {
+	for(Activity a : activityDataList){
+		listModel.addElement(a);
+	}
+}
+
 	/**
 	 * Method to create the panels
 	 */
@@ -140,7 +169,7 @@ public class Gui extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource() == submitButton){
-				System.out.println(e.getActionCommand() + " was pressed");
+				
 			}
 			
 		}
