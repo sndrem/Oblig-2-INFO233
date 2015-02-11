@@ -2,6 +2,7 @@ package no.uib.smo015.info233.oblig2.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
@@ -104,11 +105,19 @@ public class Gui extends JFrame {
 	private void setupActivityLabels(){
 		JPanel labelPanel = new JPanel();
 		labelPanel.setLayout(new GridLayout(5,1));
+		Font font = new Font("Helvetica", Font.BOLD, 25);
 		typeLabel = new JLabel("Type: ");
 		descLabel = new JLabel("Beskrivelse: ");
 		roomLabel = new JLabel("Rom: ");
 		timeStartLabel = new JLabel("Starter: ");
 		timeEndLabel = new JLabel("Slutter: ");
+		
+		typeLabel.setFont(font);
+		descLabel.setFont(font);
+		roomLabel.setFont(font);
+		timeStartLabel.setFont(font);
+		timeEndLabel.setFont(font);
+		
 		labelPanel.add(typeLabel);
 		labelPanel.add(descLabel);
 		labelPanel.add(roomLabel);
