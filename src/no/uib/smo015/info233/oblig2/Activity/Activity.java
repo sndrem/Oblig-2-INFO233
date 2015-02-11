@@ -68,7 +68,7 @@ public class Activity implements ActivityInterface, Serializable {
 	public void setActivityNode(Node activityNode) {
 		this.activityNode = activityNode;
 	}
-
+	
 	public String toString(){
 		String info = "Aktivitet: " + type + " skjer på " + room + " kl " +  startTimeString + " og slutter kl " + endTimeString + " "
 				+ " Beskrivelse: " + description;

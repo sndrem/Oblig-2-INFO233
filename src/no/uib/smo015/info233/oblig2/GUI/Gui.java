@@ -16,8 +16,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import no.uib.smo015.info233.oblig2.Activity.Activity;
+import no.uib.smo015.info233.oblig2.Events.Event;
+import no.uib.smo015.info233.oblig2.Events.ListEvent;
 import no.uib.smo015.info233.oblig2.Events.WindowEvent;
 import no.uib.smo015.info233.oblig2.Parser.Parser;
+import no.uib.smo015.info233.oblig2.Util.DateUtil;
 
 public class Gui extends JFrame {
 
@@ -31,6 +34,11 @@ public class Gui extends JFrame {
 	private Parser parser;
 	private JComboBox<String> searchComboBox;
 	private JLabel urlLabel;
+	private JLabel typeLabel;
+	private JLabel descLabel;
+	private JLabel roomLabel;
+	private JLabel timeStartLabel;
+	private JLabel timeEndLabel;
 
 	//	private DefaultTableModel dTableModel = new DefaultTableModel(activities, columnHeader){
 	//		       public Class getColumnClass(int column) {
@@ -60,6 +68,7 @@ public class Gui extends JFrame {
 		setupBottomPanel();
 		//		Sets up a list of activities
 		setupActivityList();
+		setupActivityLabels();
 		//		createTable();
 		this.setVisible(true);
 	}
@@ -84,8 +93,29 @@ public class Gui extends JFrame {
 	private void setupActivityList() {
 		listModel = new DefaultListModel<Activity>();
 		activityList = new JList<>(listModel);
+		activityList.addListSelectionListener(new ListEvent(this));
 		JScrollPane listScrollPane = new JScrollPane(activityList);
-		centerPanel.add(listScrollPane);		
+		centerPanel.add(listScrollPane, BorderLayout.NORTH);		
+	}
+	
+	/**
+	 * Method to setup the jlabels for showing different activities
+	 */
+	private void setupActivityLabels(){
+		JPanel labelPanel = new JPanel();
+		labelPanel.setLayout(new GridLayout(5,1));
+		typeLabel = new JLabel("Type: ");
+		descLabel = new JLabel("Beskrivelse: ");
+		roomLabel = new JLabel("Rom: ");
+		timeStartLabel = new JLabel("Starter: ");
+		timeEndLabel = new JLabel("Slutter: ");
+		labelPanel.add(typeLabel);
+		labelPanel.add(descLabel);
+		labelPanel.add(roomLabel);
+		labelPanel.add(timeStartLabel);
+		labelPanel.add(timeEndLabel);
+		
+		centerPanel.add(labelPanel, BorderLayout.CENTER);
 	}
 
 	
@@ -97,7 +127,7 @@ public class Gui extends JFrame {
 		topPanel = new JPanel();
 		bottomPanel = new JPanel();
 		centerPanel = new JPanel();
-		centerPanel.setLayout(new GridLayout(2,0));
+		centerPanel.setLayout(new BorderLayout());
 		this.add(centerPanel, BorderLayout.CENTER);
 		this.add(bottomPanel, BorderLayout.SOUTH);
 		this.add(topPanel, BorderLayout.NORTH);
@@ -111,6 +141,8 @@ public class Gui extends JFrame {
 		String[] topics = {"info233", "info110", "info132", "info262", "info216"};
 		searchComboBox = new JComboBox<>(topics);
 		topPanel.add(searchComboBox);
+		JLabel weekLabel = new JLabel("Uke " + DateUtil.getWeekNumber());
+		topPanel.add(weekLabel);
 		Event e = new Event(this);
 		searchComboBox.addActionListener(e);
 	}
@@ -281,6 +313,76 @@ public class Gui extends JFrame {
 	 */
 	public void setUrlLabel(JLabel urlLabel) {
 		this.urlLabel = urlLabel;
+	}
+
+	/**
+	 * @return the typeLabel
+	 */
+	public JLabel getTypeLabel() {
+		return typeLabel;
+	}
+
+	/**
+	 * @param typeLabel the typeLabel to set
+	 */
+	public void setTypeLabel(JLabel typeLabel) {
+		this.typeLabel = typeLabel;
+	}
+
+	/**
+	 * @return the descLabel
+	 */
+	public JLabel getDescLabel() {
+		return descLabel;
+	}
+
+	/**
+	 * @param descLabel the descLabel to set
+	 */
+	public void setDescLabel(JLabel descLabel) {
+		this.descLabel = descLabel;
+	}
+
+	/**
+	 * @return the roomLabel
+	 */
+	public JLabel getRoomLabel() {
+		return roomLabel;
+	}
+
+	/**
+	 * @param roomLabel the roomLabel to set
+	 */
+	public void setRoomLabel(JLabel roomLabel) {
+		this.roomLabel = roomLabel;
+	}
+
+	/**
+	 * @return the timeStartLabel
+	 */
+	public JLabel getTimeStartLabel() {
+		return timeStartLabel;
+	}
+
+	/**
+	 * @param timeStartLabel the timeStartLabel to set
+	 */
+	public void setTimeStartLabel(JLabel timeStartLabel) {
+		this.timeStartLabel = timeStartLabel;
+	}
+
+	/**
+	 * @return the timeEndLabel
+	 */
+	public JLabel getTimeEndLabel() {
+		return timeEndLabel;
+	}
+
+	/**
+	 * @param timeEndLabel the timeEndLabel to set
+	 */
+	public void setTimeEndLabel(JLabel timeEndLabel) {
+		this.timeEndLabel = timeEndLabel;
 	}
 }
 
