@@ -14,13 +14,16 @@ public class Activity implements ActivityInterface, Serializable {
 	private String type;
 	private String room;
 	private String description;
+	private String startTimeString, endTimeString;
 	private Calendar startTime, endTime;
 	private Node activityNode;
 	
-	public Activity(Node activityNode, String type, String room, String description){
+	public Activity(Node activityNode, String type, String room, String description, String startStringTime, String endStringTime){
 		this.type = type;
 		this.room = room;
 		this.description = description;
+		this.startTimeString = startStringTime;
+		this.endTimeString = endStringTime;
 		this.setActivityNode(activityNode);
 		startTime = Calendar.getInstance();
 		endTime = Calendar.getInstance();
@@ -67,9 +70,25 @@ public class Activity implements ActivityInterface, Serializable {
 	}
 
 	public String toString(){
-		String info = "Aktivitet " + type + " skjer på " + room 
+		String info = "Aktivitet: " + type + " skjer på " + room + " kl " +  startTimeString + " og slutter kl " + endTimeString + " "
 				+ " Beskrivelse: " + description;
 		return info;
+	}
+
+	public String getEndTimeString() {
+		return endTimeString;
+	}
+
+	public void setEndTimeString(String endTimeString) {
+		this.endTimeString = endTimeString;
+	}
+
+	public String getStartTimeString() {
+		return startTimeString;
+	}
+
+	public void setStartTimeString(String startTimeString) {
+		this.startTimeString = startTimeString;
 	}
 	
 }

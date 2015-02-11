@@ -8,6 +8,7 @@ import java.util.Map;
 
 import no.uib.smo015.info233.oblig2.Activity.Activity;
 import no.uib.smo015.info233.oblig2.Interfaces.ParserInterface;
+import no.uib.smo015.info233.oblig2.Util.DateUtil;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -30,6 +31,7 @@ public class Parser implements ParserInterface {
 		listActivities = new ArrayList<>();
 		dateList = new ArrayList<>();
 		weekMap = new HashMap<>();
+
 
 		try {
 			rootDocument = Jsoup.connect(url).get();
@@ -107,7 +109,7 @@ public class Parser implements ParserInterface {
 	private void nodeToActivity(Node node) {
 		List<Node> descendants = new ArrayList<>();
 		nodesToList(node, node.parent(), descendants);
-		String type = "", room = "", description = "";
+		String type = "", room = "", description = "", time = "";
 
 		for(Node descendant : descendants){
 			if(descendant.attr("class").equals("activity")){
@@ -118,10 +120,17 @@ public class Parser implements ParserInterface {
 				description = textNode.text();
 			} else if(descendant.hasAttr("title")){
 				room = descendant.attr("title");	
+			} else if (descendant.attr("class").equals("time")){
+				TextNode textNode = (TextNode) descendant.childNode(0);
+				time = textNode.text();
+				// TODO Oppdater konstruktøren for Activity så den tar inn klokkeslettet også. 
+				// TODO Sjekk om man kan bruke dagens dato når man opprettet aktiviteter siden
+				// det tross alt er for den uken man henter ned data.
+//				System.out.println(time);
 			}
 		}
 
-		listActivities.add(new Activity(node, type, room, description));
+		listActivities.add(new Activity(node, type, room, description, DateUtil.getStartTime(time), DateUtil.getEndTime(time) ));
 	}
 
 	/**

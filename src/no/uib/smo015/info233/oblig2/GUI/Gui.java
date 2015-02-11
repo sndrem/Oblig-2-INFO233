@@ -7,17 +7,19 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import no.uib.smo015.info233.oblig2.Activity.Activity;
+import no.uib.smo015.info233.oblig2.Parser.Parser;
 
 public class Gui extends JFrame {
 	
@@ -25,27 +27,51 @@ public class Gui extends JFrame {
 	private JPanel bottomPanel;
 	private JPanel centerPanel;
 	private DefaultListModel<Activity> listModel;
-	private JList<Activity> activityList;
 	private JButton submitButton;
+	private List<Activity> activityList;
+	private Parser parser;
 
 	public Gui(){
+		parser = new Parser("http://rom.app.uib.no/ukesoversikt/?entry=emne&input=info233");
+		activityList = parser.getActivityList();
 		setupFrame();
 		createPanels();
 		setupTopPanel();
-		setupActivityList();
+//		Sets up a list of activities
+//		setupActivityList();
+		
+		createTable();
 		
 		this.setVisible(true);
 	}
 	
-	/**
-	 * Method to show the information for an activity
-	 */
-	private void setupActivityList() {
-		listModel = new DefaultListModel<Activity>();
-		activityList = new JList<>(listModel);
-		JScrollPane listScrollPane = new JScrollPane(activityList);
-		centerPanel.add(listScrollPane);		
+	private void createTable() {
+		String[] weekDays = {"Hvor", 
+							"Hva",
+							"Når",
+							"Beskrivelse"};
+		Object[][] activities = {{"UPhil", "INFO233-lab", "Kl. 10.15-12.00", "Lab for nerder"}, 
+								{"SV Lite auditorium", "Forelesning", "KL 08.45 - 14.00", "Forelesning for morgenfugler"}};
+		
+		Object[][] realActivities = new Object[activityList.size()][activityList.size()];
+		
+		
+		
+	
+		JTable activityTable = new JTable(activities, weekDays);
+		JScrollPane tableScroll = new JScrollPane(activityTable);
+		centerPanel.add(tableScroll);
 	}
+
+//	/**
+//	 * Method to show the information for an activity
+//	 */
+//	private void setupActivityList() {
+//		listModel = new DefaultListModel<Activity>();
+//		activityList = new JList<>(listModel);
+//		JScrollPane listScrollPane = new JScrollPane(activityList);
+//		centerPanel.add(listScrollPane);		
+//	}
 	
 	/**
 	 * Method to create the panels

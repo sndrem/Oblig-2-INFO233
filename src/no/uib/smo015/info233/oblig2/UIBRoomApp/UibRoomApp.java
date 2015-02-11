@@ -8,13 +8,12 @@ import java.io.ObjectOutputStream;
 import java.util.List;
 
 import no.uib.smo015.info233.oblig2.Activity.Activity;
-import no.uib.smo015.info233.oblig2.GUI.Gui;
 import no.uib.smo015.info233.oblig2.Parser.Parser;
 
 public class UibRoomApp {
 	
 	public static void main(String[] args) {
-		Parser p = new Parser("http://rom.app.uib.no/ukesoversikt/?entry=emne&input=info233");
+		Parser p = new Parser("http://rom.app.uib.no/ukesoversikt/?entry=emne&input=info216");
 		p.docToLists();
 		
 		List<Activity> list = p.getActivityList();
@@ -23,7 +22,7 @@ public class UibRoomApp {
 			System.out.println(a);
 		}
 		
-		Gui g = new Gui();
+//		Gui g = new Gui();
 				
 	}
 	
