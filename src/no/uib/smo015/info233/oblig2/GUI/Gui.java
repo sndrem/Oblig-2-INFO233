@@ -173,7 +173,7 @@ public class Gui extends JFrame {
 		//Set default close operation
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		// Set to object serialization when closing
-		WindowEvent we = new WindowEvent();
+		WindowEvent we = new WindowEvent(this);
 		this.addWindowListener(we);
 		//Set title
 		this.setTitle("UIB Kalender-app");

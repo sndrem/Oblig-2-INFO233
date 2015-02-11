@@ -2,8 +2,17 @@ package no.uib.smo015.info233.oblig2.Events;
 
 import java.awt.event.WindowListener;
 
+import no.uib.smo015.info233.oblig2.GUI.Gui;
+import no.uib.smo015.info233.oblig2.UIBRoomApp.UibRoomApp;
+
 public class WindowEvent implements WindowListener {
 
+		private Gui gui;
+
+		public WindowEvent(Gui gui){
+			this.gui = gui;
+		}
+		
 		@Override
 		public void windowOpened(java.awt.event.WindowEvent e) {
 			// TODO Auto-generated method stub
@@ -12,7 +21,7 @@ public class WindowEvent implements WindowListener {
 
 		@Override
 		public void windowClosing(java.awt.event.WindowEvent e) {
-//			UibRoomApp.saveFile(activityDataList, "testGui2");
+			UibRoomApp.saveFile(gui.getActivityDataList(), "testGui2");
 		}
 
 		@Override

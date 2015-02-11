@@ -20,9 +20,9 @@ public class UibRoomApp {
 	private static Parser parser;
 
 	public static void main(String[] args) {
-		parser = new Parser("http://rom.app.uib.no/ukesoversikt/?entry=emne&input=info233");
-
-		SwingUtilities.invokeLater(new Runnable() {
+			parser = new Parser("http://rom.app.uib.no/ukesoversikt/?entry=emne&input=info233");
+			
+			SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				gui = new Gui(parser);
 				populateList(parser, gui.getListModel());
@@ -45,8 +45,8 @@ public class UibRoomApp {
 		try {
 			output = new FileOutputStream(fileName + ".ser");
 			ObjectOutputStream out = new ObjectOutputStream(output);
-			for (Object object : listOfObjects) {
-				out.writeObject(object);
+			for (Activity object : listOfObjects) {
+				out.writeObject( object);
 				out.close();
 				output.close();
 			}

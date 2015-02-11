@@ -34,7 +34,7 @@ public class Parser implements ParserInterface, Serializable {
 	 * @param url The url you want to parse
 	 */
 	public Parser(String url){
-		this.url = url;
+		this.setUrl(url);
 		nodeList = new ArrayList<>();
 		listActivities = new ArrayList<>();
 		dateList = new ArrayList<>();
@@ -47,13 +47,13 @@ public class Parser implements ParserInterface, Serializable {
 	 * @param url
 	 * @return true if it successfully connects, false otherwise
 	 */
-	public boolean connect(String url) {
+	public boolean connect(String url)  {
 		try {
 			rootDocument = Jsoup.connect(url).get();
 			root = rootDocument.childNode(1);
 			return true;
 		} catch (IOException e) {
-			System.out.println("There was a problem retrieving the website");
+			e.printStackTrace();
 			return false;
 		}
 	}
@@ -75,22 +75,7 @@ public class Parser implements ParserInterface, Serializable {
 			//			getWeekDays(node);
 		}
 
-		//		Elements activity = rootDocument.getElementsByClass("week-data");
-		//		Elements days = rootDocument.getElementsByClass("week-header");
-		//		Elements subject = rootDocument.getElementsByClass("emnekode");
-		//		Elements week = rootDocument.getElementsByClass("uke");
-		//			
-		//		for(int i = 0; i < activity.size(); i++){
-		//			Elements type = activity.get(i).getElementsByClass("activity");
-		//			Elements time = activity.get(i).getElementsByClass("time");
-		//			Elements desc = activity.get(i).getElementsByClass("item_desc");
-		//			Elements room = activity.get(i).getElementsByClass("item_room");
-		//			
-		//			String roomtitle = room.attr("title");
-		//			
-		//			listActivities.add(new Activity(type.text(), roomtitle, desc.text()));
-		//			dateList.add(time.text());
-		//		}
+
 	}
 
 	
@@ -176,6 +161,14 @@ public class Parser implements ParserInterface, Serializable {
 	@Override
 	public List<String> getDateStringList() {
 		return dateList;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 }
