@@ -1,5 +1,6 @@
 package no.uib.smo015.info233.oblig2.Util;
 
+
 /**
  * 
  * @author Sindre

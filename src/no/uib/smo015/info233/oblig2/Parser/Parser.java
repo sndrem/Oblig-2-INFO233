@@ -1,6 +1,7 @@
 package no.uib.smo015.info233.oblig2.Parser;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +16,13 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 
-public class Parser implements ParserInterface {
+/**
+ * Class representing a parser used to parse the 
+ * html content of a web page
+ * @author Sindre
+ *
+ */
+public class Parser implements ParserInterface, Serializable {
 
 	private String url;
 	private Document rootDocument;
@@ -23,24 +30,30 @@ public class Parser implements ParserInterface {
 	private List<Node> nodeList;
 	private List<Activity> listActivities;
 	private List<String> dateList;
-	private Map<Integer, Activity> weekMap;
+	private Map<Node, String> weekMap;
 
+	/**
+	 * Constructor for the Parser class
+	 * @param url The url you want to parse
+	 */
 	public Parser(String url){
 		this.url = url;
 		nodeList = new ArrayList<>();
 		listActivities = new ArrayList<>();
 		dateList = new ArrayList<>();
 		weekMap = new HashMap<>();
+		connect(url);
+		docToLists();
+	}
 
-
+	public boolean connect(String url) {
 		try {
 			rootDocument = Jsoup.connect(url).get();
 			root = rootDocument.childNode(1);
-			System.out.println(rootDocument.title() + " sucessfully retrieved\n");
-
-
+			return true;
 		} catch (IOException e) {
 			System.out.println("There was a problem retrieving the website");
+			return false;
 		}
 	}
 
@@ -56,7 +69,9 @@ public class Parser implements ParserInterface {
 				nodeToActivity(node);
 			} else if (node.attr("class").equals("week-header"));
 			// TODO Implementer denne 
-			nodeToDateStringList(node);
+			//			System.out.println("Kalender node: " + node.nodeName());
+			//			nodeToDateStringList(node);
+			//			getWeekDays(node);
 		}
 
 		//		Elements activity = rootDocument.getElementsByClass("week-data");
@@ -83,23 +98,7 @@ public class Parser implements ParserInterface {
 	 * TODO Denne virker ikke. Fiks den
 	 */
 	private void nodeToDateStringList(Node node) {
-//		List<Node> descendants = new ArrayList<>();
-//		nodesToList(node, node.parent(), descendants);
-//
-//		int index = 0;
-//		for(Node descendant : descendants){
-//			if(descendant.attr("class").equals("week-header")){
-//				List<Node> babies = descendant.childNodes();
-//				for(Node n : babies){
-//					System.out.println(n.nodeName());
-//					if(n instanceof TextNode){
-//						TextNode tnode = (TextNode) descendant.childNode(0);
-//						System.out.println("Index " + index + " "  + tnode.text());
-//					} 
-//				}
-//			}
-//			index++;
-//		}
+		
 	}
 
 	/**
@@ -126,7 +125,7 @@ public class Parser implements ParserInterface {
 				// TODO Oppdater konstruktøren for Activity så den tar inn klokkeslettet også. 
 				// TODO Sjekk om man kan bruke dagens dato når man opprettet aktiviteter siden
 				// det tross alt er for den uken man henter ned data.
-//				System.out.println(time);
+				//				System.out.println(time);
 			}
 		}
 

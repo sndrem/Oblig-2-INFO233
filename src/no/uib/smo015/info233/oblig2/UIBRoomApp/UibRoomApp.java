@@ -13,28 +13,22 @@ import no.uib.smo015.info233.oblig2.Parser.Parser;
 
 public class UibRoomApp {
 	
+	
 	public static void main(String[] args) {
-		Parser p = new Parser("http://rom.app.uib.no/ukesoversikt/?entry=emne&input=info233");
-		p.docToLists();
-		
-		List<Activity> list = p.getActivityList();
-		
-//		for (Activity a : list){
-//			System.out.println(a);
-//		}
-		
-		Gui g = new Gui(p);
-				
+		Parser parser = new Parser("http://rom.app.uib.no/ukesoversikt/?entry=emne&input=info233");		
+		new Gui(parser);
 	}
 	
-	public static boolean saveFile(Object o, String fileName){
+	public static boolean saveFile(List<Activity> listOfObjects, String fileName){
 		FileOutputStream output;
 		try {
 			output = new FileOutputStream(fileName + ".ser");
 			ObjectOutputStream out = new ObjectOutputStream(output);
-			out.writeObject(o);
-			out.close();
-			output.close();
+			for(Object object : listOfObjects){
+				out.writeObject(object);
+				out.close();
+				output.close();
+			}
 			System.out.println(fileName + " was written to a file");
 			return true;
 		} catch (IOException e) {
