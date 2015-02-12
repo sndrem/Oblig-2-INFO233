@@ -22,7 +22,7 @@ public class UibRoomApp {
 	public static void main(String[] args) {
 		parser = new Parser(
 				"http://rom.app.uib.no/ukesoversikt/?entry=emne&input=info233");
-
+		
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				gui = new Gui(parser);
@@ -37,18 +37,20 @@ public class UibRoomApp {
 
 		gui.setActivityDataList(parser.getActivityList());
 		listModel.clear();
+		System.out.println("Størrelsen på listen er nå " + listModel.getSize());
 		for (Activity a : gui.getActivityDataList()) {
 			listModel.addElement(a);
 		}
-		
+		System.out.println("Størrelsen på listen er nå " + listModel.getSize());
 		// TODO Fiks denne slik at den virker skikkelig
 		// Denne gjør at man kan lagre
-		if(listModel.size() < 1){
+		if(listModel.getSize() == 0){
+			System.out.println("er vi her?");
 			gui.getUrlLabel().setText("Status: bad");
 		} else {
+			System.out.println("Nå er vi her");
 			gui.getUrlLabel().setText("Status: ok");
 		}
-
 
 	}
 
