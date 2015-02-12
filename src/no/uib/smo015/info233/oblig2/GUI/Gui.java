@@ -147,7 +147,7 @@ public class Gui extends JFrame {
 	 */
 	private void setupTopPanel(){
 
-		String[] topics = {"info233", "info110", "info132", "info262", "info216"};
+		String[] topics = {"info233", "info110", "info132", "info262", "info216", "info125"};
 		searchComboBox = new JComboBox<>(topics);
 		topPanel.add(searchComboBox);
 		JLabel weekLabel = new JLabel("Uke " + DateUtil.getWeekNumber());
@@ -160,7 +160,7 @@ public class Gui extends JFrame {
 	 * Method to setup the bottom panel
 	 */
 	private void setupBottomPanel(){
-		urlLabel = new JLabel("Status: ");
+		urlLabel = new JLabel("");
 		bottomPanel.add(urlLabel);
 	}
 

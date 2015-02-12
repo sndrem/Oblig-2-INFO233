@@ -20,9 +20,10 @@ public class UibRoomApp {
 	private static Parser parser;
 
 	public static void main(String[] args) {
-			parser = new Parser("http://rom.app.uib.no/ukesoversikt/?entry=emne&input=info233");
-			
-			SwingUtilities.invokeLater(new Runnable() {
+		parser = new Parser(
+				"http://rom.app.uib.no/ukesoversikt/?entry=emne&input=info233");
+
+		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				gui = new Gui(parser);
 				populateList(parser, gui.getListModel());
@@ -33,11 +34,22 @@ public class UibRoomApp {
 
 	public static void populateList(Parser parser,
 			DefaultListModel<Activity> listModel) {
+
 		gui.setActivityDataList(parser.getActivityList());
 		listModel.clear();
 		for (Activity a : gui.getActivityDataList()) {
 			listModel.addElement(a);
 		}
+		
+		// TODO Fiks denne slik at den virker skikkelig
+		// Denne gjør at man kan lagre
+		if(listModel.size() < 1){
+			gui.getUrlLabel().setText("Status: bad");
+		} else {
+			gui.getUrlLabel().setText("Status: ok");
+		}
+
+
 	}
 
 	public static boolean saveFile(List<Activity> listOfObjects, String fileName) {
@@ -46,14 +58,14 @@ public class UibRoomApp {
 			output = new FileOutputStream(fileName + ".ser");
 			ObjectOutputStream out = new ObjectOutputStream(output);
 			for (Activity object : listOfObjects) {
-				out.writeObject( object);
+				out.writeObject(object);
 				out.close();
 				output.close();
 			}
 			System.out.println(fileName + " was written to a file");
 			return true;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			System.out.println("Something went wrong");
 			e.printStackTrace();
 			return false;
 		}

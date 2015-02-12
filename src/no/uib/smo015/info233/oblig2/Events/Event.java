@@ -19,7 +19,6 @@ public class Event implements ActionListener {
 		if(e.getSource() == gui.getSearchComboBox()){
 			String searchTerm = (String) gui.getSearchComboBox().getSelectedItem();
 			String searchUrl = "http://rom.app.uib.no/ukesoversikt/?entry=emne&input=" + searchTerm;
-//			gui.getListModel().clear();
 			Parser parser = new Parser(searchUrl);
 			UibRoomApp.populateList(parser, gui.getListModel());
 			parser.docToLists();
