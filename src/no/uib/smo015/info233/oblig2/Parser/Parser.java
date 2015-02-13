@@ -1,13 +1,13 @@
 package no.uib.smo015.info233.oblig2.Parser;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import no.uib.smo015.info233.oblig2.Activity.Activity;
 import no.uib.smo015.info233.oblig2.Interfaces.ParserInterface;
 import no.uib.smo015.info233.oblig2.Util.DateUtil;
+import no.uib.smo015.info233.oblig2.Util.RecursiveUtil;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -20,7 +20,7 @@ import org.jsoup.nodes.TextNode;
  * @author Sindre
  *
  */
-public class Parser implements ParserInterface, Serializable {
+public class Parser implements ParserInterface {
 
 	private String url;
 	private Document rootDocument;
@@ -40,6 +40,10 @@ public class Parser implements ParserInterface, Serializable {
 		dateList = new ArrayList<>();
 		connect(url);
 		docToLists();
+		
+		for(Node n : nodeList){
+			System.out.println(n.nodeName());
+		}
 	}
 
 	/**
@@ -68,24 +72,20 @@ public class Parser implements ParserInterface, Serializable {
 		for (Node node : nodeList){
 			if(node.attr("class").equals("week-data")){
 				nodeToActivity(node);
-			} else if (node.attr("class").equals("week-header"));
-			// TODO Implementer denne 
-			//			System.out.println("Kalender node: " + node.nodeName());
-			//			nodeToDateStringList(node);
-			//			getWeekDays(node);
+			} 
+			
+			if (node.attr("class").equals("week-header") && node.nodeName().equals("td"));
+//			nodeToDateStringList(node);
 		}
-
-
 	}
 
-	
 	/**
 	 * Method to add a timestring to the dateStringList
 	 * @param node
 	 * TODO Denne virker ikke. Fiks den
 	 */
-	private void nodeToDateStringList(Node node) {
-		
+	private void nodeToDateStringList(Node node) {		
+		dateList.add(RecursiveUtil.getFirstTextChild(node).text());
 	}
 
 	/**
@@ -148,7 +148,7 @@ public class Parser implements ParserInterface, Serializable {
 	public List<Activity> getActivityList() {
 		return listActivities;
 	}
-	
+
 	/**
 	 * Method to add an activity to the activitylist
 	 * @param activity An activity to be added
@@ -156,7 +156,7 @@ public class Parser implements ParserInterface, Serializable {
 	public void addActivity(Activity activity){
 		listActivities.add(activity);
 	}
-	
+
 
 	@Override
 	public List<String> getDateStringList() {
@@ -169,6 +169,69 @@ public class Parser implements ParserInterface, Serializable {
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	/**
+	 * @return the rootDocument
+	 */
+	public Document getRootDocument() {
+		return rootDocument;
+	}
+
+	/**
+	 * @param rootDocument the rootDocument to set
+	 */
+	public void setRootDocument(Document rootDocument) {
+		this.rootDocument = rootDocument;
+	}
+
+	/**
+	 * @return the root
+	 */
+	public Node getRoot() {
+		return root;
+	}
+
+	/**
+	 * @param root the root to set
+	 */
+	public void setRoot(Node root) {
+		this.root = root;
+	}
+
+	/**
+	 * @return the listActivities
+	 */
+	public List<Activity> getListActivities() {
+		return listActivities;
+	}
+
+	/**
+	 * @param listActivities the listActivities to set
+	 */
+	public void setListActivities(List<Activity> listActivities) {
+		this.listActivities = listActivities;
+	}
+
+	/**
+	 * @return the dateList
+	 */
+	public List<String> getDateList() {
+		return dateList;
+	}
+
+	/**
+	 * @param dateList the dateList to set
+	 */
+	public void setDateList(List<String> dateList) {
+		this.dateList = dateList;
+	}
+
+	/**
+	 * @param nodeList the nodeList to set
+	 */
+	public void setNodeList(List<Node> nodeList) {
+		this.nodeList = nodeList;
 	}
 
 }

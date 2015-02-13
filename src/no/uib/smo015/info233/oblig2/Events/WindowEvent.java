@@ -3,6 +3,7 @@ package no.uib.smo015.info233.oblig2.Events;
 import java.awt.event.WindowListener;
 
 import no.uib.smo015.info233.oblig2.GUI.Gui;
+import no.uib.smo015.info233.oblig2.UIBRoomApp.UibRoomApp;
 
 public class WindowEvent implements WindowListener {
 
@@ -14,14 +15,14 @@ public class WindowEvent implements WindowListener {
 		
 		@Override
 		public void windowOpened(java.awt.event.WindowEvent e) {
-			// TODO Auto-generated method stub
+//			gui.setActivityDataList(UibRoomApp.readFromFile("testGui2"));
 			
 		}
 
 		@Override
 		public void windowClosing(java.awt.event.WindowEvent e) {
 			// TODO Fiks slik at man kan lagre når man lukker programmet
-//			UibRoomApp.saveFile(gui.getActivityDataList(), "testGui2");
+			UibRoomApp.saveFile(gui.getActivityDataList(), "testGui2");
 		}
 
 		@Override

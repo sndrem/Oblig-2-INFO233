@@ -147,7 +147,7 @@ public class Gui extends JFrame {
 	 */
 	private void setupTopPanel(){
 
-		String[] topics = {"info233", "info110", "info132", "info262", "info216", "info125"};
+		String[] topics = {"info233", "info110", "info132", "info262", "info216", "info125", "inf144"};
 		searchComboBox = new JComboBox<>(topics);
 		topPanel.add(searchComboBox);
 		JLabel weekLabel = new JLabel("Uke " + DateUtil.getWeekNumber());

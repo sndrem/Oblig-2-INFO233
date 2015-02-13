@@ -23,7 +23,6 @@ public class ListEvent implements ListSelectionListener {
 			gui.getTimeStartLabel().setText("Starter: " + activity.getStartTimeString());
 			gui.getTimeEndLabel().setText("Slutter: " + activity.getEndTimeString());
 			gui.getRoomLabel().setText("Rom: " + activity.getRoom());
-		
 		} 
 		
 	}

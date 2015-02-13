@@ -22,7 +22,17 @@ public class Event implements ActionListener {
 			Parser parser = new Parser(searchUrl);
 			UibRoomApp.populateList(parser, gui.getListModel());
 			parser.docToLists();
-			gui.getUrlLabel().setText("Status: ok");	
+			if(gui.getActivityDataList().size() > 0){
+				gui.getUrlLabel().setText("Status ok");
+				gui.getActivityList().setSelectedIndex(0);
+			} else {
+				gui.getUrlLabel().setText("Ingen info tilgjengelig for valgt emne");
+				gui.getDescLabel().setText("Beskrivelse: ");
+				gui.getRoomLabel().setText("Rom: ");
+				gui.getTimeEndLabel().setText("Slutt: ");
+				gui.getTimeStartLabel().setText("Start: ");
+				gui.getTypeLabel().setText("Type: ");
+			}
 		}
 
 	}

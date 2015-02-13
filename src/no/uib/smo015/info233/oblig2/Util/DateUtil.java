@@ -13,9 +13,6 @@ import java.util.GregorianCalendar;
  */
 public class DateUtil {
 
-	public DateUtil() {
-	}
-
 	/**
 	 * 
 	 * @param time

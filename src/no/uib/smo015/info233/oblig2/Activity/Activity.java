@@ -16,7 +16,7 @@ public class Activity implements ActivityInterface, Serializable {
 	private String description;
 	private String startTimeString, endTimeString;
 	private Calendar startTime, endTime;
-	private Node activityNode;
+	private transient Node activityNode;
 	
 	public Activity(Node activityNode, String type, String room, String description, String startStringTime, String endStringTime){
 		this.type = type;
