@@ -22,6 +22,7 @@ public class UibRoomApp {
 	private static Parser parser;
 
 	public static void main(String[] args) {
+		
 		parser = new Parser(
 				"http://rom.app.uib.no/ukesoversikt/?entry=emne&input=info233");
 
@@ -30,9 +31,11 @@ public class UibRoomApp {
 				gui = new Gui(parser);
 				populateList(parser, gui.getListModel());
 				gui.getUrlLabel().setText("Status ok");
+				readFromFile("testGui2");
 			}
 		});
-
+		
+		
 	}
 
 	public static void populateList(Parser parser,
@@ -47,12 +50,12 @@ public class UibRoomApp {
 
 	public static boolean saveFile(List<Activity> listOfObjects, String fileName) {
 		FileOutputStream output;
+		List<Activity> activityList = parser.getActivityList();
 		try {
 			output = new FileOutputStream(fileName + ".ser");
 			ObjectOutputStream out = new ObjectOutputStream(output);
-			for (Activity object : listOfObjects) {
-				out.writeObject(object);
-			}
+			out.writeObject(activityList);
+			System.out.println("Writing objects....");
 			out.close();
 			output.close();
 			System.out.println(fileName + " was written to a file");
@@ -62,26 +65,8 @@ public class UibRoomApp {
 			e.printStackTrace();
 			return false;
 		}
-
 	}
 
-	public static boolean saveList(List<Activity> listOfObjects, String fileName) {
-		FileOutputStream output;
-		try {
-			output = new FileOutputStream(fileName + ".ser");
-			ObjectOutputStream out = new ObjectOutputStream(output);
-			out.writeObject(listOfObjects);
-			out.close();
-			output.close();
-			System.out.println(fileName + " was written to a file");
-			return true;
-		} catch (IOException e) {
-			System.out.println("Something went wrong");
-			e.printStackTrace();
-			return false;
-		}
-
-	}
 
 	/**
 	 * Method to read from a file
@@ -92,24 +77,30 @@ public class UibRoomApp {
 	public static List<Activity> readFromFile(String fileName) {
 		File inputFile = new File(fileName + ".ser");
 		if (inputFile.exists()) {
+			System.out.println("The file " + fileName + " exists");
 			FileInputStream input = null;
-			List<Activity> activityList = new ArrayList<>();
+			List<Activity> activityList = new ArrayList<Activity>();
 			try {
 				input = new FileInputStream(inputFile);
 				ObjectInputStream obInput = new ObjectInputStream(input);
-				parser.addActivity((Activity) obInput.readObject());
+				activityList = (List<Activity>) obInput.readObject();
 				System.out
 				.println("The activity was successfully written back to memory");
+				System.out.println("Activities retrieved: " + activityList.size());
+				
+				for(Activity ac : activityList){
+					System.out.println(ac);
+					gui.getListModel().addElement(ac);
+				}
+				
 				input.close();
 				obInput.close();
 				return activityList;
 
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				return null;
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				return null;
 			} finally {
@@ -120,10 +111,14 @@ public class UibRoomApp {
 				}
 			}
 		}
-		else {
-			parser = new Parser("http://rom.app.uib.no/ukesoversikt/?entry=emne&input=info233");
-			return parser.getActivityList();
-		}
+//		else if(InternetUtil.hasConnectivity()) {
+//			parser = new Parser("http://rom.app.uib.no/ukesoversikt/?entry=emne&input=info233");
+//			return parser.getActivityList();
+//		} else {
+//			System.out.println("Please connect to the Internet");
+//			return null;
+//		}
+		return null;
 	}
 
 }

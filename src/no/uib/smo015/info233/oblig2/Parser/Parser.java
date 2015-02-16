@@ -7,6 +7,7 @@ import java.util.List;
 import no.uib.smo015.info233.oblig2.Activity.Activity;
 import no.uib.smo015.info233.oblig2.Interfaces.ParserInterface;
 import no.uib.smo015.info233.oblig2.Util.DateUtil;
+import no.uib.smo015.info233.oblig2.Util.InternetUtil;
 import no.uib.smo015.info233.oblig2.Util.RecursiveUtil;
 
 import org.jsoup.Jsoup;
@@ -15,8 +16,8 @@ import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 
 /**
- * Class representing a parser used to parse the 
- * html content of a web page
+ * Class representing a parser used to parse the html content of a web page
+ * 
  * @author Sindre
  *
  */
@@ -31,27 +32,30 @@ public class Parser implements ParserInterface {
 
 	/**
 	 * Constructor for the Parser class
-	 * @param url The url you want to parse
+	 * 
+	 * @param url
+	 *            The url you want to parse
 	 */
-	public Parser(String url){
+	public Parser(String url) {
 		this.setUrl(url);
 		nodeList = new ArrayList<>();
 		listActivities = new ArrayList<>();
 		dateList = new ArrayList<>();
-		connect(url);
-		docToLists();
-		
-		for(Node n : nodeList){
-			System.out.println(n.nodeName());
+		if (InternetUtil.hasConnectivity()){
+			connect(url);
+			docToLists();
+		} else {
+			System.out.println("Internet is down, lets read from a file");
 		}
 	}
 
 	/**
 	 * Method to connect to the the given url and retrieve the data
+	 * 
 	 * @param url
 	 * @return true if it successfully connects, false otherwise
 	 */
-	public boolean connect(String url)  {
+	public boolean connect(String url) {
 		try {
 			rootDocument = Jsoup.connect(url).get();
 			root = rootDocument.childNode(1);
@@ -59,7 +63,7 @@ public class Parser implements ParserInterface {
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
-		}
+		} 
 	}
 
 	/**
@@ -69,27 +73,31 @@ public class Parser implements ParserInterface {
 	public void docToLists() {
 		nodesToList(root, null, nodeList);
 
-		for (Node node : nodeList){
-			if(node.attr("class").equals("week-data")){
+		for (Node node : nodeList) {
+			if (node.attr("class").equals("week-data")) {
 				nodeToActivity(node);
-			} 
-			
-			if (node.attr("class").equals("week-header") && node.nodeName().equals("td"));
-//			nodeToDateStringList(node);
+			}
+
+			if (node.attr("class").equals("week-header")
+					&& node.nodeName().equals("td"))
+				;
+			// nodeToDateStringList(node);
 		}
 	}
 
 	/**
 	 * Method to add a timestring to the dateStringList
+	 * 
 	 * @param node
-	 * TODO Denne virker ikke. Fiks den
+	 *            TODO Denne virker ikke. Fiks den
 	 */
-	private void nodeToDateStringList(Node node) {		
+	private void nodeToDateStringList(Node node) {
 		dateList.add(RecursiveUtil.getFirstTextChild(node).text());
 	}
 
 	/**
 	 * Method to add an activity to the activity list
+	 * 
 	 * @param node
 	 */
 	private void nodeToActivity(Node node) {
@@ -97,40 +105,47 @@ public class Parser implements ParserInterface {
 		nodesToList(node, node.parent(), descendants);
 		String type = "", room = "", description = "", time = "";
 
-		for(Node descendant : descendants){
-			if(descendant.attr("class").equals("activity")){
+		for (Node descendant : descendants) {
+			if (descendant.attr("class").equals("activity")) {
 				TextNode textNode = (TextNode) descendant.childNode(0);
 				type = textNode.text();
-			} else if(descendant.attr("class").equals("item_desc")){
+			} else if (descendant.attr("class").equals("item_desc")) {
 				TextNode textNode = (TextNode) descendant.childNode(0);
 				description = textNode.text();
-			} else if(descendant.hasAttr("title")){
-				room = descendant.attr("title");	
-			} else if (descendant.attr("class").equals("time")){
+			} else if (descendant.hasAttr("title")) {
+				room = descendant.attr("title");
+			} else if (descendant.attr("class").equals("time")) {
 				TextNode textNode = (TextNode) descendant.childNode(0);
 				time = textNode.text();
-				// TODO Oppdater konstruktøren for Activity så den tar inn klokkeslettet også. 
-				// TODO Sjekk om man kan bruke dagens dato når man opprettet aktiviteter siden
+				// TODO Oppdater konstruktøren for Activity så den tar inn
+				// klokkeslettet også.
+				// TODO Sjekk om man kan bruke dagens dato når man opprettet
+				// aktiviteter siden
 				// det tross alt er for den uken man henter ned data.
-				//				System.out.println(time);
+				// System.out.println(time);
 			}
 		}
 
-		listActivities.add(new Activity(node, type, room, description, DateUtil.getStartTime(time), DateUtil.getEndTime(time) ));
+		listActivities.add(new Activity(node, type, room, description, DateUtil
+				.getStartTime(time), DateUtil.getEndTime(time)));
 	}
 
 	/**
 	 * Method to recursively traverse the html document
-	 * @param node 		Whole document
-	 * @param parent	The Parent 
-	 * @param nodeList 	the list of nodes
+	 * 
+	 * @param node
+	 *            Whole document
+	 * @param parent
+	 *            The Parent
+	 * @param nodeList
+	 *            the list of nodes
 	 */
 	@Override
-	public List<Node> nodesToList(Node node , Node parent, List<Node> nodeList) {
+	public List<Node> nodesToList(Node node, Node parent, List<Node> nodeList) {
 
-		if(node.childNodeSize() > 0){
+		if (node.childNodeSize() > 0) {
 			Node child = node.childNode(0);
-			while(child != null){
+			while (child != null) {
 				nodeList.add(child);
 				nodesToList(child, child.parentNode(), nodeList);
 				child = child.nextSibling();
@@ -149,14 +164,19 @@ public class Parser implements ParserInterface {
 		return listActivities;
 	}
 
-	/**
-	 * Method to add an activity to the activitylist
-	 * @param activity An activity to be added
-	 */
-	public void addActivity(Activity activity){
-		listActivities.add(activity);
+	public void setActivityList(List<Activity> activities) {
+		this.listActivities = activities;
 	}
 
+	/**
+	 * Method to add an activity to the activitylist
+	 * 
+	 * @param activity
+	 *            An activity to be added
+	 */
+	public void addActivity(Activity activity) {
+		listActivities.add(activity);
+	}
 
 	@Override
 	public List<String> getDateStringList() {
@@ -179,7 +199,8 @@ public class Parser implements ParserInterface {
 	}
 
 	/**
-	 * @param rootDocument the rootDocument to set
+	 * @param rootDocument
+	 *            the rootDocument to set
 	 */
 	public void setRootDocument(Document rootDocument) {
 		this.rootDocument = rootDocument;
@@ -193,7 +214,8 @@ public class Parser implements ParserInterface {
 	}
 
 	/**
-	 * @param root the root to set
+	 * @param root
+	 *            the root to set
 	 */
 	public void setRoot(Node root) {
 		this.root = root;
@@ -207,7 +229,8 @@ public class Parser implements ParserInterface {
 	}
 
 	/**
-	 * @param listActivities the listActivities to set
+	 * @param listActivities
+	 *            the listActivities to set
 	 */
 	public void setListActivities(List<Activity> listActivities) {
 		this.listActivities = listActivities;
@@ -221,14 +244,16 @@ public class Parser implements ParserInterface {
 	}
 
 	/**
-	 * @param dateList the dateList to set
+	 * @param dateList
+	 *            the dateList to set
 	 */
 	public void setDateList(List<String> dateList) {
 		this.dateList = dateList;
 	}
 
 	/**
-	 * @param nodeList the nodeList to set
+	 * @param nodeList
+	 *            the nodeList to set
 	 */
 	public void setNodeList(List<Node> nodeList) {
 		this.nodeList = nodeList;

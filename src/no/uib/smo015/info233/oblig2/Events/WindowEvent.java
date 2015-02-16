@@ -4,6 +4,7 @@ import java.awt.event.WindowListener;
 
 import no.uib.smo015.info233.oblig2.GUI.Gui;
 import no.uib.smo015.info233.oblig2.UIBRoomApp.UibRoomApp;
+import no.uib.smo015.info233.oblig2.Util.InternetUtil;
 
 public class WindowEvent implements WindowListener {
 
@@ -21,8 +22,12 @@ public class WindowEvent implements WindowListener {
 
 		@Override
 		public void windowClosing(java.awt.event.WindowEvent e) {
-			// TODO Fiks slik at man kan lagre når man lukker programmet
-			UibRoomApp.saveFile(gui.getActivityDataList(), "testGui2");
+			if(InternetUtil.hasConnectivity()){
+				UibRoomApp.saveFile(gui.getActivityDataList(), "testGui2");
+			} else {
+				System.out.println("No connection to internet. \n"
+						+ "I wont overwrite your stuff. No worries bro..");
+			}
 		}
 
 		@Override
