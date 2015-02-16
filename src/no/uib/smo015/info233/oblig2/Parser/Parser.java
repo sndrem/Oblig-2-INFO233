@@ -27,7 +27,7 @@ public class Parser implements ParserInterface {
 	private Document rootDocument;
 	private Node root;
 	private List<Node> nodeList;
-	private List<Activity> activityList;
+	private List<Activity> listActivities;
 	private List<String> dateList;
 
 	/**
@@ -39,14 +39,13 @@ public class Parser implements ParserInterface {
 	public Parser(String url) {
 		this.setUrl(url);
 		nodeList = new ArrayList<>();
-		activityList = new ArrayList<>();
+		listActivities = new ArrayList<>();
 		dateList = new ArrayList<>();
 		if (InternetUtil.hasConnectivity()){
 			connect(url);
 			docToLists();
 		} else {
 			System.out.println("Internet is down, lets read from a file");
-			//TODO Implementer lesing av fil her i fra
 		}
 	}
 
@@ -80,7 +79,8 @@ public class Parser implements ParserInterface {
 			}
 
 			if (node.attr("class").equals("week-header")
-					&& node.nodeName().equals("td"));
+					&& node.nodeName().equals("td"))
+				;
 			// nodeToDateStringList(node);
 		}
 	}
@@ -126,7 +126,8 @@ public class Parser implements ParserInterface {
 			}
 		}
 
-		activityList.add(new Activity(node, type, room, description, DateUtil.getStartTime(time), DateUtil.getEndTime(time)));
+		listActivities.add(new Activity(node, type, room, description, DateUtil
+				.getStartTime(time), DateUtil.getEndTime(time)));
 	}
 
 	/**
@@ -160,11 +161,11 @@ public class Parser implements ParserInterface {
 
 	@Override
 	public List<Activity> getActivityList() {
-		return activityList;
+		return listActivities;
 	}
 
 	public void setActivityList(List<Activity> activities) {
-		this.activityList = activities;
+		this.listActivities = activities;
 	}
 
 	/**
@@ -174,7 +175,7 @@ public class Parser implements ParserInterface {
 	 *            An activity to be added
 	 */
 	public void addActivity(Activity activity) {
-		activityList.add(activity);
+		listActivities.add(activity);
 	}
 
 	@Override
@@ -224,7 +225,7 @@ public class Parser implements ParserInterface {
 	 * @return the listActivities
 	 */
 	public List<Activity> getListActivities() {
-		return activityList;
+		return listActivities;
 	}
 
 	/**
@@ -232,7 +233,7 @@ public class Parser implements ParserInterface {
 	 *            the listActivities to set
 	 */
 	public void setListActivities(List<Activity> listActivities) {
-		this.activityList = listActivities;
+		this.listActivities = listActivities;
 	}
 
 	/**
