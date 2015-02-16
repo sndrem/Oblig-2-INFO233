@@ -47,10 +47,14 @@ public class UibRoomApp {
 	 * @param listModel
 	 */
 	public static void populateList(Parser parser, DefaultListModel<Activity> listModel) {
-		gui.setActivityDataList(parser.getActivityList());
 		listModel.clear();
+		gui.getActivityDataList().clear();
+		gui.setActivityDataList(parser.getActivityList());
+		System.out.println("-----------");
+		System.out.println("Antall aktiviter i populateList-metoden " + gui.getActivityDataList().size());
 		for (Activity a : gui.getActivityDataList()) {
 			listModel.addElement(a);
+			System.out.println("Added element" + a.getType());
 		}
 	}
 

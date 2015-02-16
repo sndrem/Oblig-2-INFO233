@@ -27,7 +27,7 @@ public class Parser implements ParserInterface {
 	private Document rootDocument;
 	private Node root;
 	private List<Node> nodeList;
-	private List<Activity> listActivities;
+	private List<Activity> activityList;
 	private List<String> dateList;
 
 	/**
@@ -39,7 +39,7 @@ public class Parser implements ParserInterface {
 	public Parser(String url) {
 		this.setUrl(url);
 		nodeList = new ArrayList<>();
-		listActivities = new ArrayList<>();
+		activityList = new ArrayList<>();
 		dateList = new ArrayList<>();
 		if (InternetUtil.hasConnectivity()){
 			connect(url);
@@ -126,8 +126,7 @@ public class Parser implements ParserInterface {
 			}
 		}
 
-		listActivities.add(new Activity(node, type, room, description, DateUtil
-				.getStartTime(time), DateUtil.getEndTime(time)));
+		activityList.add(new Activity(node, type, room, description, DateUtil.getStartTime(time), DateUtil.getEndTime(time)));
 	}
 
 	/**
@@ -161,11 +160,11 @@ public class Parser implements ParserInterface {
 
 	@Override
 	public List<Activity> getActivityList() {
-		return listActivities;
+		return activityList;
 	}
 
 	public void setActivityList(List<Activity> activities) {
-		this.listActivities = activities;
+		this.activityList = activities;
 	}
 
 	/**
@@ -175,7 +174,7 @@ public class Parser implements ParserInterface {
 	 *            An activity to be added
 	 */
 	public void addActivity(Activity activity) {
-		listActivities.add(activity);
+		activityList.add(activity);
 	}
 
 	@Override
@@ -225,7 +224,7 @@ public class Parser implements ParserInterface {
 	 * @return the listActivities
 	 */
 	public List<Activity> getListActivities() {
-		return listActivities;
+		return activityList;
 	}
 
 	/**
@@ -233,7 +232,7 @@ public class Parser implements ParserInterface {
 	 *            the listActivities to set
 	 */
 	public void setListActivities(List<Activity> listActivities) {
-		this.listActivities = listActivities;
+		this.activityList = listActivities;
 	}
 
 	/**
