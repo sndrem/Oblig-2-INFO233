@@ -15,6 +15,7 @@ import javax.swing.SwingUtilities;
 import no.uib.smo015.info233.oblig2.Activity.Activity;
 import no.uib.smo015.info233.oblig2.GUI.Gui;
 import no.uib.smo015.info233.oblig2.Parser.Parser;
+import no.uib.smo015.info233.oblig2.Util.InternetUtil;
 
 public class UibRoomApp {
 
@@ -31,16 +32,21 @@ public class UibRoomApp {
 				gui = new Gui(parser);
 				populateList(parser, gui.getListModel());
 				gui.getUrlLabel().setText("Status ok");
-				readFromFile("testGui2");
+				if(!InternetUtil.hasConnectivity()){
+					readFromFile("testGui2");
+				}
 			}
 		});
 		
 		
 	}
 
-	public static void populateList(Parser parser,
-			DefaultListModel<Activity> listModel) {
-
+	/**
+	 * Method to populate a list with activities
+	 * @param parser
+	 * @param listModel
+	 */
+	public static void populateList(Parser parser, DefaultListModel<Activity> listModel) {
 		gui.setActivityDataList(parser.getActivityList());
 		listModel.clear();
 		for (Activity a : gui.getActivityDataList()) {
@@ -48,14 +54,26 @@ public class UibRoomApp {
 		}
 	}
 
+	/**
+	 * Method to save a file
+	 * @param listOfObjects L
+	 * @param fileName
+	 * @return true if the file is saved, false otherwise
+	 */
 	public static boolean saveFile(List<Activity> listOfObjects, String fileName) {
 		FileOutputStream output;
 		List<Activity> activityList = parser.getActivityList();
 		try {
+			System.out.println("Writing activities as objects...");
+			int index = 0;
+			for(Activity ac : activityList){
+				System.out.println(index + " " + ac.getType());
+				index++;
+			}
+			System.out.println(index + " activities written to file");
 			output = new FileOutputStream(fileName + ".ser");
 			ObjectOutputStream out = new ObjectOutputStream(output);
 			out.writeObject(activityList);
-			System.out.println("Writing objects....");
 			out.close();
 			output.close();
 			System.out.println(fileName + " was written to a file");
@@ -72,7 +90,7 @@ public class UibRoomApp {
 	 * Method to read from a file
 	 * 
 	 * @param fileName
-	 * @return a Activity
+	 * @return a List of activities
 	 */
 	public static List<Activity> readFromFile(String fileName) {
 		File inputFile = new File(fileName + ".ser");

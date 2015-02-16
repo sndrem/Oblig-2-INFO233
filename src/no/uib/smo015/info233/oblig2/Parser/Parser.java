@@ -46,6 +46,7 @@ public class Parser implements ParserInterface {
 			docToLists();
 		} else {
 			System.out.println("Internet is down, lets read from a file");
+			//TODO Implementer lesing av fil her i fra
 		}
 	}
 
@@ -79,8 +80,7 @@ public class Parser implements ParserInterface {
 			}
 
 			if (node.attr("class").equals("week-header")
-					&& node.nodeName().equals("td"))
-				;
+					&& node.nodeName().equals("td"));
 			// nodeToDateStringList(node);
 		}
 	}
