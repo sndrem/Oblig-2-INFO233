@@ -23,19 +23,16 @@ public class Event implements ActionListener {
 			if(InternetUtil.hasConnectivity()){
 				String searchTerm = (String) gui.getSearchComboBox().getSelectedItem();
 				String searchUrl = "http://rom.app.uib.no/ukesoversikt/?entry=emne&input=" + searchTerm;
-				Parser parser = new Parser(searchUrl);
+				gui.getActivityDataList().clear();
+				Parser parser = new Parser(searchUrl, gui.getActivityDataList());
 				UibRoomApp.populateList(parser, gui.getListModel());
 				parser.docToLists();
+				
 				if(gui.getActivityDataList().size() > 0){
 					gui.getUrlLabel().setText("Status ok");
 					gui.getActivityList().setSelectedIndex(0);
 				} else {
-					gui.getUrlLabel().setText("Ingen info tilgjengelig for valgt emne");
-					gui.getDescLabel().setText("Beskrivelse: ");
-					gui.getRoomLabel().setText("Rom: ");
-					gui.getTimeEndLabel().setText("Slutt: ");
-					gui.getTimeStartLabel().setText("Start: ");
-					gui.getTypeLabel().setText("Type: ");
+					gui.setBlankLabels();
 				}
 			} else {
 				JOptionPane.showMessageDialog(gui, "Vennligst koble deg til internett", "Internett er nede", JOptionPane.ERROR_MESSAGE);

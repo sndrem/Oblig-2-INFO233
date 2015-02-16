@@ -15,6 +15,7 @@ import javax.swing.SwingUtilities;
 import no.uib.smo015.info233.oblig2.Activity.Activity;
 import no.uib.smo015.info233.oblig2.GUI.Gui;
 import no.uib.smo015.info233.oblig2.Parser.Parser;
+import no.uib.smo015.info233.oblig2.Util.InternetUtil;
 
 public class UibRoomApp {
 
@@ -22,35 +23,53 @@ public class UibRoomApp {
 	private static Parser parser;
 
 	public static void main(String[] args) {
-		
-		parser = new Parser(
-				"http://rom.app.uib.no/ukesoversikt/?entry=emne&input=info233");
+
+		parser = new Parser("http://rom.app.uib.no/ukesoversikt/?entry=emne&input=info233");
 
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				gui = new Gui(parser);
-				populateList(parser, gui.getListModel());
-				gui.getUrlLabel().setText("Status ok");
-				readFromFile("testGui2");
+				if(InternetUtil.hasConnectivity()){
+					populateList(parser, gui.getListModel());
+					gui.getUrlLabel().setText("Status ok");
+				} else {
+					readFromFile("testGui2");
+					gui.getUrlLabel().setText("Internett er nede");
+				}					
 			}
 		});
-		
-		
+
+
 	}
 
+	/**
+	 * Method to 
+	 * @param parser
+	 * @param listModel
+	 */
 	public static void populateList(Parser parser,
 			DefaultListModel<Activity> listModel) {
-
-		gui.setActivityDataList(parser.getActivityList());
 		listModel.clear();
-		for (Activity a : gui.getActivityDataList()) {
+		for (Activity a : parser.getActivityList()) {
 			listModel.addElement(a);
+
 		}
 	}
 
+	/**
+	 * Method to save a file
+	 * @param listOfObjects
+	 * @param fileName
+	 * @return true if the file is saved, false otherwise
+	 */
 	public static boolean saveFile(List<Activity> listOfObjects, String fileName) {
 		FileOutputStream output;
-		List<Activity> activityList = parser.getActivityList();
+		DefaultListModel<Activity> listModel = gui.getListModel();
+		List<Activity> activityList = gui.getActivityDataList();
+		activityList.clear();
+		for(int i = 0; i < listModel.size(); i++){
+			activityList.add(listModel.get(i));
+		}
 		try {
 			output = new FileOutputStream(fileName + ".ser");
 			ObjectOutputStream out = new ObjectOutputStream(output);
@@ -72,7 +91,7 @@ public class UibRoomApp {
 	 * Method to read from a file
 	 * 
 	 * @param fileName
-	 * @return a Activity
+	 * @return a list of activities
 	 */
 	public static List<Activity> readFromFile(String fileName) {
 		File inputFile = new File(fileName + ".ser");
@@ -87,12 +106,12 @@ public class UibRoomApp {
 				System.out
 				.println("The activity was successfully written back to memory");
 				System.out.println("Activities retrieved: " + activityList.size());
-				
+
 				for(Activity ac : activityList){
 					System.out.println(ac);
 					gui.getListModel().addElement(ac);
 				}
-				
+
 				input.close();
 				obInput.close();
 				return activityList;
@@ -111,13 +130,13 @@ public class UibRoomApp {
 				}
 			}
 		}
-//		else if(InternetUtil.hasConnectivity()) {
-//			parser = new Parser("http://rom.app.uib.no/ukesoversikt/?entry=emne&input=info233");
-//			return parser.getActivityList();
-//		} else {
-//			System.out.println("Please connect to the Internet");
-//			return null;
-//		}
+		//		else if(InternetUtil.hasConnectivity()) {
+		//			parser = new Parser("http://rom.app.uib.no/ukesoversikt/?entry=emne&input=info233");
+		//			return parser.getActivityList();
+		//		} else {
+		//			System.out.println("Please connect to the Internet");
+		//			return null;
+		//		}
 		return null;
 	}
 

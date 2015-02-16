@@ -41,28 +41,9 @@ public class Gui extends JFrame {
 	private JLabel timeStartLabel;
 	private JLabel timeEndLabel;
 
-	//	private DefaultTableModel dTableModel = new DefaultTableModel(activities, columnHeader){
-	//		       public Class getColumnClass(int column) {
-	//		            Class returnValue;
-	//			             
-	//			            // Verifying that the column exists (index > 0 && index < number of columns
-	//			             
-	//			            if ((column >= 0) && (column < getColumnCount())) {
-	//			              returnValue = getValueAt(0, column).getClass();
-	//			            } else {
-	//			                 
-	//			              // Returns the class for the item in the column  
-	//			                 
-	//			              returnValue = Object.class;
-	//			            }
-	//			            return returnValue;
-	//			          }
-	//		        };
-
-
 	public Gui(Parser p){
 		parser = p;
-		activityDataList = parser.getActivityList();
+		activityDataList = p.getActivityList();
 		setupFrame();
 		createPanels();
 		setupTopPanel();
@@ -70,7 +51,7 @@ public class Gui extends JFrame {
 		//		Sets up a list of activities
 		setupActivityList();
 		setupActivityLabels();
-		//		createTable();
+//		JOptionPane.showMessageDialog(this, "Denne versjonen takler ikke datoer, jeg tar ikke hensyn til feil som kan forekomme i din kalender.\nBruk på eget ansvar.\nKredittkortinformasjon er hentet inn.\nHa en fin dag.");
 		this.setVisible(true);
 	}
 
@@ -184,6 +165,17 @@ public class Gui extends JFrame {
 
 	}
 
+	/**
+	 * Method to set the labels to blank
+	 */
+	public void setBlankLabels(){
+		this.getUrlLabel().setText("Ingen info tilgjengelig for valgt emne");
+		this.getDescLabel().setText("Beskrivelse: ");
+		this.getRoomLabel().setText("Rom: ");
+		this.getTimeEndLabel().setText("Slutt: ");
+		this.getTimeStartLabel().setText("Start: ");
+		this.getTypeLabel().setText("Type: ");
+	}
 	/**
 	 * Method to center the frame
 	 */
