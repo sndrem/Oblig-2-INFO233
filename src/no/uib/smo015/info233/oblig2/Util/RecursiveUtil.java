@@ -22,5 +22,9 @@ public class RecursiveUtil {
 			return null;
 		}
 	}
+	
+	public static Node getWeekDayNode(Node node){
+		return null;
+	}
 
 }

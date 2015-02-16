@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import org.jsoup.nodes.TextNode;
+
 /**
  * 
  * @author Sindre A util class used to easy extract the start time or end time
@@ -59,6 +61,15 @@ public class DateUtil {
 		String date = dateFormat.format(cal.getTime()); 
 		
 		return date;
+	}
+	
+	/**
+	 * Method to collect the five weekdays
+	 */
+	public static boolean getWeekDays(TextNode node){
+		if(node.text().startsWith("Man") || node.text().startsWith("Tir") || node.text().startsWith("Ons") || node.text().startsWith("Tors") || node.text().startsWith("Fre")){
+			return true;
+		} else return false;
 	}
 
 }

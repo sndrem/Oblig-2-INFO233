@@ -29,6 +29,7 @@ public class Parser implements ParserInterface {
 	private List<Node> nodeList;
 	private List<Activity> activityList;
 	private List<String> dateList;
+	private int index = 0;
 
 	/**
 	 * Constructor for the Parser class
@@ -85,16 +86,21 @@ public class Parser implements ParserInterface {
 	@Override
 	public void docToLists() {
 		nodesToList(root, null, nodeList);
+		
 
 		for (Node node : nodeList) {
 			if (node.attr("class").equals("week-data")) {
 				nodeToActivity(node);
 			}
 			
-			if (node.attr("class").equals("week-header")
-					&& node.nodeName().equals("td"))
-				;
-			// nodeToDateStringList(node);
+			if (node.attr("class").equals("week-header") && node.nodeName().equals("tr"));
+				if(node instanceof TextNode){
+					TextNode tn = (TextNode) node;
+					if(DateUtil.getWeekDays(tn)){
+//						System.out.println(tn.text());
+					}
+				}
+//			 nodeToDateStringList(node);
 		}
 	}
 
@@ -110,10 +116,11 @@ public class Parser implements ParserInterface {
 
 	/**
 	 * Method to add an activity to the activity list
-	 * 
 	 * @param node
 	 */
 	private void nodeToActivity(Node node) {
+		//TODO Fiks den jævla datoen!!
+		System.out.println(node.parent());
 		List<Node> descendants = new ArrayList<>();
 		nodesToList(node, node.parent(), descendants);
 		String type = "", room = "", description = "", time = "";
@@ -137,7 +144,9 @@ public class Parser implements ParserInterface {
 				// det tross alt er for den uken man henter ned data.
 				// System.out.println(time);
 			}
+			
 		}
+		
 
 		activityList.add(new Activity(node, type, room, description, DateUtil
 				.getStartTime(time), DateUtil.getEndTime(time)));
