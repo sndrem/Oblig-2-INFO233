@@ -10,10 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
+import javax.swing.SwingUtilities;
 
 import no.uib.smo015.info233.oblig2.Activity.Activity;
 import no.uib.smo015.info233.oblig2.GUI.Gui;
 import no.uib.smo015.info233.oblig2.Parser.Parser;
+import no.uib.smo015.info233.oblig2.Util.InternetUtil;
 
 public class UibRoomApp {
 
@@ -30,18 +32,18 @@ public class UibRoomApp {
 //		}
 		
 
-//		SwingUtilities.invokeLater(new Runnable() {
-//			public void run() {
-//				gui = new Gui(parser);
-//				if(InternetUtil.hasConnectivity()){
-//					populateList(parser, gui.getListModel());
-//					gui.getUrlLabel().setText("Status ok");
-//				} else {
-//					readFromFile("testGui2");
-//					gui.getUrlLabel().setText("Internett er nede");
-//				}					
-//			}
-//		});
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				gui = new Gui(parser);
+				if(InternetUtil.hasConnectivity()){
+					populateList(parser, gui.getListModel());
+					gui.getUrlLabel().setText("Status ok");
+				} else {
+					readFromFile("testGui2");
+					gui.getUrlLabel().setText("Internett er nede");
+				}					
+			}
+		});
 
 
 	}

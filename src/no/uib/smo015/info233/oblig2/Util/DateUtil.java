@@ -1,9 +1,11 @@
 package no.uib.smo015.info233.oblig2.Util;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 import org.jsoup.nodes.TextNode;
 
@@ -24,6 +26,34 @@ public class DateUtil {
 	public static String getStartTime(String time) {
 		String[] times = time.split("-");
 		return times[0];
+	}
+	
+	/**
+	 * Method to format a string with a given date
+	 * @param timeDateString
+	 * @param format
+	 * @return a calender object with a date
+	 */
+	public static Calendar stringToCalendar(String timeDateString, String format){
+		Calendar cal = Calendar.getInstance(TimeZone.getDefault());
+		
+		SimpleDateFormat sdf = new SimpleDateFormat(format);
+		try {
+			cal.setTime(sdf.parse(timeDateString));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return cal;
+	}
+	
+	/**
+	 * Method to remove the name of the days
+	 */
+	public static String removeNameOfDay(String date){
+		String[] dateSplitter = date.split(" ");
+		return dateSplitter[1];
 	}
 
 	/**

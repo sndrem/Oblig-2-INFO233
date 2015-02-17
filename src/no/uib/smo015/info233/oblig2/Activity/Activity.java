@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.Calendar;
 
 import no.uib.smo015.info233.oblig2.Interfaces.ActivityInterface;
+import no.uib.smo015.info233.oblig2.Util.DateUtil;
 
 import org.jsoup.nodes.Node;
 
@@ -17,6 +18,7 @@ public class Activity implements ActivityInterface, Serializable {
 	private String startTimeString, endTimeString;
 	private Calendar startTime, endTime;
 	private transient Node activityNode;
+	private String weekDay;
 	
 	public Activity(Node activityNode, String type, String room, String description, String startStringTime, String endStringTime, String weekDay){
 		this.type = type;
@@ -25,8 +27,11 @@ public class Activity implements ActivityInterface, Serializable {
 		this.startTimeString = startStringTime;
 		this.endTimeString = endStringTime;
 		this.setActivityNode(activityNode);
-		startTime = Calendar.getInstance();
-		endTime = Calendar.getInstance();
+		this.weekDay = weekDay;
+		
+		String format = "hh:MM mm.DDDD.yyyy";
+		setStartTime(DateUtil.stringToCalendar(startStringTime + " " + DateUtil.removeNameOfDay(weekDay), format));
+		setEndTime(DateUtil.stringToCalendar(endStringTime + " " + DateUtil.removeNameOfDay(weekDay), format));
 		
 	}
 
@@ -47,14 +52,12 @@ public class Activity implements ActivityInterface, Serializable {
 
 	@Override
 	public Calendar getBeginTime() {
-		// TODO Implementer denne din latsabb
-		return null;
+		return startTime;
 	}
 
 	@Override
 	public Calendar getEndTime() {
-		// TODO Implementer denne din latsabb
-		return null;
+		return endTime;
 	}
 
 	@Override
@@ -71,7 +74,7 @@ public class Activity implements ActivityInterface, Serializable {
 	}
 	
 	public String toString(){
-		String info = "Aktivitet: " + type + " skjer på " + room + " kl " +  startTimeString + " og slutter kl " + endTimeString + " "
+		String info = "Aktivitet: " + type + " skjer på " + room + " den " +  startTime.getTime() + " og slutter kl " + endTime.getTime() + " "
 				+ " Beskrivelse: " + description;
 		return info;
 	}
@@ -90,6 +93,18 @@ public class Activity implements ActivityInterface, Serializable {
 
 	public void setStartTimeString(String startTimeString) {
 		this.startTimeString = startTimeString;
+	}
+
+	public Calendar getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(Calendar startTime) {
+		this.startTime = startTime;
+	}
+
+	public void setEndTime(Calendar endTime) {
+		this.endTime = endTime;
 	}
 	
 }

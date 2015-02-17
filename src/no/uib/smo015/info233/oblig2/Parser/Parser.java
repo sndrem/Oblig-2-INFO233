@@ -124,7 +124,6 @@ public class Parser implements ParserInterface {
 		String type = "", room = "", description = "", time = "";
 		int weekIndex = getTrueActivityIndex(node, 1, "td");
 		String weekDay = dateList.get(weekIndex - 1);
-		System.out.println(dateList.size() + " " + weekIndex + " " + weekDay);
 
 		for (Node descendant : descendants) {
 			if (descendant.attr("class").equals("activity")) {
