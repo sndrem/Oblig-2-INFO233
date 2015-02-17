@@ -40,6 +40,7 @@ public class Gui extends JFrame {
 	private JLabel roomLabel;
 	private JLabel timeStartLabel;
 	private JLabel timeEndLabel;
+	private JLabel weekDayLabel;
 
 	public Gui(Parser p){
 		parser = p;
