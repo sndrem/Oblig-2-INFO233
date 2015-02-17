@@ -35,9 +35,9 @@ public class Activity implements ActivityInterface, Serializable {
 	 * @param description
 	 * @param startStringTime
 	 * @param endStringTime
-	 * @param dateAsString
+	 * @param weekDay
 	 */
-	public Activity(Node activityNode, String type, String room, String roomCode, String description, String startStringTime, String endStringTime, String dateAsString){
+	public Activity(Node activityNode, String type, String room, String roomCode, String description, String startStringTime, String endStringTime, String weekDay){
 		this.type = type;
 		this.room = roomCode + " " + room;
 		this.description = description;
@@ -46,8 +46,8 @@ public class Activity implements ActivityInterface, Serializable {
 		this.setActivityNode(activityNode);
 		
 		String format = "HH:mm dd.MM.yyyy";
-		setStartTime(DateUtil.stringToCalendar(startStringTime + " " + DateUtil.removeNameOfDay(dateAsString), format));
-		setEndTime(DateUtil.stringToCalendar(endStringTime + " " + DateUtil.removeNameOfDay(dateAsString), format));
+		setStartTime(DateUtil.stringToCalendar(startStringTime + " " + DateUtil.removeNameOfDay(weekDay), format));
+		setEndTime(DateUtil.stringToCalendar(endStringTime + " " + DateUtil.removeNameOfDay(weekDay), format));
 	}
 
 	public String toString(){
