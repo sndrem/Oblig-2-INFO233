@@ -1,18 +1,15 @@
 package no.uib.smo015.info233.oblig2.Util;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
-import org.jsoup.nodes.TextNode;
-
 /**
  * 
  * @author Sindre A util class used to easy extract the start time or end time
- *         for a given activity.
+ *         for a given activity as well as to format a string to a given date format
  *
  */
 public class DateUtil {
@@ -32,7 +29,7 @@ public class DateUtil {
 	 * Method to format a string with a given date
 	 * @param timeDateString
 	 * @param format
-	 * @return a calender object with a date
+	 * @return Calendar a calender object with a date
 	 */
 	public static Calendar stringToCalendar(String timeDateString, String format){
 		Calendar cal = Calendar.getInstance(TimeZone.getDefault());
@@ -49,18 +46,22 @@ public class DateUtil {
 	}
 	
 	/**
-	 * Method to remove the name of the days
+	 * Method to remove the name of the days such as "Mandag", "Tirsdag" and so forth.
+	 * @return String 
 	 */
 	public static String removeNameOfDay(String date){
 		String[] dateSplitter = date.split(" ");
-		return dateSplitter[1];
+		if(dateSplitter.length > 1){
+			return dateSplitter[1];
+		}
+		return null;
 	}
 
 	/**
 	 * 
 	 * @param time
 	 *            The string must be of type xx:xx-xx:xx
-	 * @return The end time of a time string.
+	 * @return String The end time of a time string.
 	 */
 	public static String getEndTime(String time) {
 		String[] times = time.split("-");
@@ -69,8 +70,7 @@ public class DateUtil {
 
 	/**
 	 * Method to return this weeks week number
-	 * 
-	 * @return weekNumber The number of the week
+	 * @return int The number of the week
 	 */
 	public static int getWeekNumber() {
 		GregorianCalendar gc = new GregorianCalendar();
@@ -80,27 +80,5 @@ public class DateUtil {
 
 		return weekNumber;
 	}
-	
-	
-	/**
-	 * Method to return todays date and time as a string
-	 * @return date	Todays date
-	 */
-	public static String getTodaysDate(){
-		DateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, ''yy");
-		Calendar cal = Calendar.getInstance();
-		String date = dateFormat.format(cal.getTime()); 
 		
-		return date;
-	}
-	
-	/**
-	 * Method to collect the five weekdays
-	 */
-	public static boolean getWeekDays(TextNode node){
-		if(node.text().startsWith("Man") || node.text().startsWith("Tir") || node.text().startsWith("Ons") || node.text().startsWith("Tors") || node.text().startsWith("Fre")){
-			return true;
-		} else return false;
-	}
-
 }

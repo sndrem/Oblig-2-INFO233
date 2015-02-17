@@ -147,8 +147,7 @@ public class Parser implements ParserInterface {
 			} else if (descendant.attr("class").equals("time")) {
 				TextNode textNode = (TextNode) descendant.childNode(0);
 				time = textNode.text();
-				// TODO Oppdater konstruktøren for Activity så den tar inn
-				// klokkeslettet også.
+
 			}
 
 		}
@@ -159,13 +158,10 @@ public class Parser implements ParserInterface {
 
 	/**
 	 * Method to recursively traverse the html document
-	 * 
-	 * @param node
-	 *            Whole document
-	 * @param parent
-	 *            The Parent
-	 * @param nodeList
-	 *            the list of nodes
+	 * @param node Whole document
+	 * @param parent The Parent
+	 * @param nodeList the list of nodes
+	 * @return a list of nodes
 	 */
 	@Override
 	public List<Node> nodesToList(Node node, Node parent, List<Node> nodeList) {
@@ -193,16 +189,6 @@ public class Parser implements ParserInterface {
 
 	public void setActivityList(List<Activity> activities) {
 		this.activityList = activities;
-	}
-
-	/**
-	 * Method to add an activity to the activitylist
-	 * 
-	 * @param activity
-	 *            An activity to be added
-	 */
-	public void addActivity(Activity activity) {
-		activityList.add(activity);
 	}
 
 	@Override

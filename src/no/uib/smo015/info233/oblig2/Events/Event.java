@@ -10,13 +10,28 @@ import no.uib.smo015.info233.oblig2.Parser.Parser;
 import no.uib.smo015.info233.oblig2.UIBRoomApp.UibRoomApp;
 import no.uib.smo015.info233.oblig2.Util.InternetUtil;
 
+/**
+ * Class representing an event for a gui object
+ * @author Sindre
+ * @version 0.0.1
+ *
+ */
 public class Event implements ActionListener {
 
 	private Gui gui;
+	
+	/**
+	 * Constructor for the Event class
+	 * @param gui
+	 */
 	public Event(Gui gui){
 		this.gui = gui;
 	}
 
+	/**
+	 * Method to respond on a user event
+	 * @param ActionEvent e
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == gui.getSearchComboBox()){
