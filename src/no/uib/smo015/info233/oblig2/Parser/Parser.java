@@ -16,8 +16,8 @@ import org.jsoup.nodes.TextNode;
 
 /**
  * Class representing a parser used to parse the html content of a web page
- * 
  * @author Sindre
+ * @version 0.0.1
  *
  */
 public class Parser implements ParserInterface {
@@ -34,8 +34,7 @@ public class Parser implements ParserInterface {
 	/**
 	 * Constructor for the Parser class
 	 * 
-	 * @param url
-	 *            The url you want to parse
+	 * @param url The url you want to parse
 	 */
 	public Parser(String url) {
 		this.setUrl(url);
@@ -50,6 +49,12 @@ public class Parser implements ParserInterface {
 		}
 	}
 
+	/**
+	 * Constructor for the Parser Class
+	 * This constructor is mainly used for changing activities based of the topic you want to check
+	 * @param url
+	 * @param activityList
+	 */
 	public Parser(String url, List<Activity> activityList){
 		this.setUrl(url);
 		nodeList = new ArrayList<>();
@@ -89,7 +94,6 @@ public class Parser implements ParserInterface {
 
 		for (Node node : nodeList) {
 			if (node.attr("class").equals("week-header") && node.nodeName().equals("tr")){
-				//Legg til datoene, yippikayey motherfucker
 				for (int i = 1; i < 6; i++){
 					dateList.add(node.childNode(i).childNode(0).toString());
 				}
@@ -102,14 +106,21 @@ public class Parser implements ParserInterface {
 		}
 	}
 
-	public int getTrueActivityIndex(Node node, int i, String match){
+	/**
+	 * Method used to retrieve the correct index of the week for an activity.
+	 * @param node
+	 * @param i
+	 * @param match
+	 * @return
+	 */
+	public int getTrueActivityIndex(Node node, int i, String tableData){
 		node = node.previousSibling();
 		if(node == null)
 			return i;
 
-		if (node.nodeName().equals(match))
+		if (node.nodeName().equals(tableData))
 			i++;
-		return getTrueActivityIndex(node, i, match);
+		return getTrueActivityIndex(node, i, tableData);
 
 	}
 
@@ -118,7 +129,6 @@ public class Parser implements ParserInterface {
 	 * @param node
 	 */
 	private void nodeToActivity(Node node) {
-		//TODO Fiks den jævla datoen!!
 		List<Node> descendants = new ArrayList<>();
 		nodesToList(node, node.parent(), descendants);
 		String type = "", room = "", description = "", time = "";

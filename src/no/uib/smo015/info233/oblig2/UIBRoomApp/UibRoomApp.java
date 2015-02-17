@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import no.uib.smo015.info233.oblig2.Activity.Activity;
@@ -25,13 +26,7 @@ public class UibRoomApp {
 	public static void main(String[] args) {
 
 		parser = new Parser("http://rom.app.uib.no/ukesoversikt/?entry=emne&input=info233");
-		
-//		List<Activity> dates = parser.getActivityList();
-//		for(Activity a : dates){
-//			System.out.println(a.getDescription());
-//		}
-		
-
+	
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				gui = new Gui(parser);
@@ -49,7 +44,7 @@ public class UibRoomApp {
 	}
 
 	/**
-	 * Method to 
+	 * Method to populate the list of the gui with activities
 	 * @param parser
 	 * @param listModel
 	 */
@@ -63,7 +58,7 @@ public class UibRoomApp {
 	}
 
 	/**
-	 * Method to save a file
+	 * Method to save a file with activities
 	 * @param listOfObjects
 	 * @param fileName
 	 * @return true if the file is saved, false otherwise
@@ -95,7 +90,6 @@ public class UibRoomApp {
 
 	/**
 	 * Method to read from a file
-	 * 
 	 * @param fileName
 	 * @return a list of activities
 	 */
@@ -108,15 +102,8 @@ public class UibRoomApp {
 			try {
 				input = new FileInputStream(inputFile);
 				ObjectInputStream obInput = new ObjectInputStream(input);
+				
 				activityList = (List<Activity>) obInput.readObject();
-				System.out
-				.println("The activity was successfully written back to memory");
-				System.out.println("Activities retrieved: " + activityList.size());
-
-				for(Activity ac : activityList){
-					System.out.println(ac);
-					gui.getListModel().addElement(ac);
-				}
 
 				input.close();
 				obInput.close();
@@ -135,14 +122,10 @@ public class UibRoomApp {
 					e.printStackTrace();
 				}
 			}
+		} else {
+			JOptionPane.showMessageDialog(gui, "Ingen fil med data tilgjengelig", "Ooops", JOptionPane.ERROR_MESSAGE);
 		}
-		//		else if(InternetUtil.hasConnectivity()) {
-		//			parser = new Parser("http://rom.app.uib.no/ukesoversikt/?entry=emne&input=info233");
-		//			return parser.getActivityList();
-		//		} else {
-		//			System.out.println("Please connect to the Internet");
-		//			return null;
-		//		}
+	
 		return null;
 	}
 

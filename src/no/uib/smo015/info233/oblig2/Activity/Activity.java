@@ -10,6 +10,13 @@ import no.uib.smo015.info233.oblig2.Util.DateUtil;
 
 import org.jsoup.nodes.Node;
 
+/**
+ * Class representing an activity
+ * @author Sindre
+ * @version 0.0.1
+ *
+ */
+
 public class Activity implements ActivityInterface, Serializable {
 
 	private static final long serialVersionUID = -4962193791986602328L;
@@ -20,6 +27,16 @@ public class Activity implements ActivityInterface, Serializable {
 	private Calendar startTime, endTime;
 	private transient Node activityNode;
 	
+	/**
+	 * Constructor for the Activity class
+	 * @param activityNode
+	 * @param type
+	 * @param room
+	 * @param description
+	 * @param startStringTime
+	 * @param endStringTime
+	 * @param weekDay
+	 */
 	public Activity(Node activityNode, String type, String room, String description, String startStringTime, String endStringTime, String weekDay){
 		this.type = type;
 		this.room = room;
