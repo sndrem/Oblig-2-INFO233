@@ -88,18 +88,21 @@ public class Gui extends JFrame {
 		JPanel labelPanel = new JPanel();
 		labelPanel.setLayout(new GridLayout(5,1));
 		Font font = new Font("Helvetica", Font.BOLD, 25);
+		weekDayLabel = new JLabel("Dag: ");
 		typeLabel = new JLabel("Type: ");
 		descLabel = new JLabel("Beskrivelse: ");
 		roomLabel = new JLabel("Rom: ");
 		timeStartLabel = new JLabel("Starter: ");
 		timeEndLabel = new JLabel("Slutter: ");
 		
+		weekDayLabel.setFont(font);
 		typeLabel.setFont(font);
 		descLabel.setFont(font);
 		roomLabel.setFont(font);
 		timeStartLabel.setFont(font);
 		timeEndLabel.setFont(font);
 		
+		labelPanel.add(weekDayLabel);
 		labelPanel.add(typeLabel);
 		labelPanel.add(descLabel);
 		labelPanel.add(roomLabel);
@@ -170,6 +173,7 @@ public class Gui extends JFrame {
 	 * Method to set the labels to blank
 	 */
 	public void setBlankLabels(){
+		this.getWeekDayLabel().setText("Dag: ");
 		this.getUrlLabel().setText("Ingen info tilgjengelig for valgt emne");
 		this.getDescLabel().setText("Beskrivelse: ");
 		this.getRoomLabel().setText("Rom: ");
@@ -385,6 +389,14 @@ public class Gui extends JFrame {
 	 */
 	public void setTimeEndLabel(JLabel timeEndLabel) {
 		this.timeEndLabel = timeEndLabel;
+	}
+
+	public JLabel getWeekDayLabel() {
+		return weekDayLabel;
+	}
+
+	public void setWeekDayLabel(JLabel weekDayLabel) {
+		this.weekDayLabel = weekDayLabel;
 	}
 }
 
