@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.border.TitledBorder;
 
 import no.uib.smo015.info233.oblig2.Activity.Activity;
 import no.uib.smo015.info233.oblig2.Events.Event;
@@ -76,6 +77,7 @@ public class Gui extends JFrame {
 		activityList = new JList<>(listModel);
 		activityList.addListSelectionListener(new ListEvent(this));
 		activityList.setSelectedIndex(0);
+//		activityList.setBorder(new TitledBorder("Aktiviteter"));
 		JScrollPane listScrollPane = new JScrollPane(activityList);
 		centerPanel.add(listScrollPane, BorderLayout.NORTH);		
 	}
@@ -120,6 +122,7 @@ public class Gui extends JFrame {
 		topPanel = new JPanel();
 		bottomPanel = new JPanel();
 		centerPanel = new JPanel();
+		centerPanel.setBorder(new TitledBorder("Aktiviteter"));
 		centerPanel.setLayout(new BorderLayout());
 		this.add(centerPanel, BorderLayout.CENTER);
 		this.add(bottomPanel, BorderLayout.SOUTH);
