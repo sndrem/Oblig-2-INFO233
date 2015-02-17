@@ -24,11 +24,11 @@ public class UibRoomApp {
 
 		parser = new Parser("http://rom.app.uib.no/ukesoversikt/?entry=emne&input=info233");
 		
-		List<String> dates = parser.getDateList();
+//		List<Activity> dates = parser.getActivityList();
+//		for(Activity a : dates){
+//			System.out.println(a.getDescription());
+//		}
 		
-		for(String date : dates){
-			System.out.println(date);
-		}
 
 //		SwingUtilities.invokeLater(new Runnable() {
 //			public void run() {
