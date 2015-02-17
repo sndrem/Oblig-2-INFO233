@@ -129,7 +129,7 @@ public class Parser implements ParserInterface {
 	private void nodeToActivity(Node node) {
 		List<Node> descendants = new ArrayList<>();
 		nodesToList(node, node.parent(), descendants);
-		String type = "", room = "", description = "", time = "";
+		String type = "", room = "", description = "", time = "", roomCode = "";
 		int weekIndex = getTrueActivityIndex(node, 1, "td");
 		String weekDay = dateList.get(weekIndex - 1);
 
@@ -142,15 +142,16 @@ public class Parser implements ParserInterface {
 				description = textNode.text();
 			} else if (descendant.hasAttr("title")) {
 				room = descendant.attr("title");
+				Node roomCodeNode = descendant.childNode(0);
+				roomCode = roomCodeNode.childNode(0).toString();
 			} else if (descendant.attr("class").equals("time")) {
 				TextNode textNode = (TextNode) descendant.childNode(0);
 				time = textNode.text();
-
-			}
+			} 
 
 		}
 		
-		activityList.add(new Activity(node, type, room, description, DateUtil
+		activityList.add(new Activity(node, type, room, roomCode, description, DateUtil
 				.getStartTime(time), DateUtil.getEndTime(time), weekDay));
 	}
 

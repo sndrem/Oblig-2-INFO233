@@ -37,9 +37,9 @@ public class Activity implements ActivityInterface, Serializable {
 	 * @param endStringTime
 	 * @param weekDay
 	 */
-	public Activity(Node activityNode, String type, String room, String description, String startStringTime, String endStringTime, String weekDay){
+	public Activity(Node activityNode, String type, String room, String roomCode, String description, String startStringTime, String endStringTime, String weekDay){
 		this.type = type;
-		this.room = room;
+		this.room = roomCode + " " + room;
 		this.description = description;
 		this.startTimeString = startStringTime;
 		this.endTimeString = endStringTime;

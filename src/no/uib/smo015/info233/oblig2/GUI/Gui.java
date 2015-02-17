@@ -49,10 +49,8 @@ public class Gui extends JFrame {
 		createPanels();
 		setupTopPanel();
 		setupBottomPanel();
-		//		Sets up a list of activities
 		setupActivityList();
 		setupActivityLabels();
-//		JOptionPane.showMessageDialog(this, "Denne versjonen takler ikke datoer, jeg tar ikke hensyn til feil som kan forekomme i din kalender.\nBruk på eget ansvar.\nKredittkortinformasjon er hentet inn.\nHa en fin dag.");
 		this.setVisible(true);
 	}
 
@@ -77,6 +75,7 @@ public class Gui extends JFrame {
 		listModel = new DefaultListModel<Activity>();
 		activityList = new JList<>(listModel);
 		activityList.addListSelectionListener(new ListEvent(this));
+		activityList.setSelectedIndex(0);
 		JScrollPane listScrollPane = new JScrollPane(activityList);
 		centerPanel.add(listScrollPane, BorderLayout.NORTH);		
 	}
