@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -26,22 +28,27 @@ public class UibRoomApp {
 	public static void main(String[] args) {
 
 		parser = new Parser("http://rom.app.uib.no/ukesoversikt/?entry=emne&input=info233");
-	
+
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				gui = new Gui(parser);
 				if(InternetUtil.hasConnectivity()){
 					populateList(parser, gui.getListModel());
+					gui.getActivityList().setSelectedIndex(0);
 					gui.getUrlLabel().setText("Status ok");
+					gui.getLoadButton().setEnabled(false);
 				} else {
-					readFromFile("testGui2");
+					List<Activity> activityList = readFromFile("testGui2");
+					System.out.println(activityList.size());
+					DefaultListModel<Activity> activityModel = new DefaultListModel<>();
+					for(Activity a : activityList){
+						activityModel.addElement(a);
+					}
+					populateList(activityModel);
 					gui.getUrlLabel().setText("Internett er nede");
 				}					
 			}
 		});
-		
-
-
 	}
 
 	/**
@@ -52,10 +59,33 @@ public class UibRoomApp {
 	public static void populateList(Parser parser,
 			DefaultListModel<Activity> listModel) {
 		listModel.clear();
+		// Sort the list so that the activities are sorted by start time
+		Collections.sort(parser.getActivityList(), new Comparator<Activity>() {
+			public int compare(Activity o1, Activity o2) {
+				return o1.getStartTime().compareTo(o2.getStartTime());
+			}
+		});
 		for (Activity a : parser.getActivityList()) {
 			listModel.addElement(a);
-
 		}
+	}
+	
+	public static void populateList(DefaultListModel<Activity> activityModel){
+		List<Activity> tempList = new ArrayList<>();
+		for(int i = 0; i < activityModel.size(); i++){
+			tempList.add(activityModel.get(i));
+		}
+		Collections.sort(tempList, new Comparator<Activity>() {
+			public int compare(Activity o1, Activity o2) {
+				return o1.getStartTime().compareTo(o2.getStartTime());
+			}
+		});
+		
+		for(Activity a : tempList){
+			gui.getListModel().addElement(a);
+		}
+		
+		
 	}
 
 	/**
@@ -64,7 +94,7 @@ public class UibRoomApp {
 	 * @param fileName
 	 * @return true if the file is saved, false otherwise
 	 */
-	public static boolean saveFile(List<Activity> listOfObjects, String fileName) {
+	public static boolean saveFile(String fileName) {
 		FileOutputStream output;
 		DefaultListModel<Activity> listModel = gui.getListModel();
 		List<Activity> activityList = gui.getActivityDataList();
@@ -87,6 +117,45 @@ public class UibRoomApp {
 			return false;
 		}
 	}
+	
+	/**
+	 * Method to retrieve a serialized file
+	 * @param fileName
+	 * @return DefaultListModel<Activity>
+	 */
+	public static DefaultListModel<Activity> fetchSerializedFile(String fileName){
+		DefaultListModel<Activity> activityModel = new DefaultListModel<>();
+		File inputFile = new File(fileName + ".ser");
+		if(inputFile.exists()){
+			FileInputStream inputStream = null;
+			ObjectInputStream obInput = null;
+			
+			try{
+				inputStream = new FileInputStream(inputFile);
+				obInput = new ObjectInputStream(inputStream);
+				
+				List<Activity> tempList = new ArrayList<>();
+				
+				tempList = (List<Activity>) obInput.readObject();
+				
+				for(Activity activity : tempList){
+					activityModel.addElement(activity);
+				}
+				
+			} catch (IOException | ClassNotFoundException e){
+				e.printStackTrace();
+			} finally{
+				try{
+					inputStream.close();
+					obInput.close();
+				} catch (Exception e){
+					e.printStackTrace();
+				}
+			}
+		}
+		return activityModel;
+	}
+
 
 
 	/**
@@ -103,7 +172,7 @@ public class UibRoomApp {
 			try {
 				input = new FileInputStream(inputFile);
 				ObjectInputStream obInput = new ObjectInputStream(input);
-				
+
 				activityList = (List<Activity>) obInput.readObject();
 
 				input.close();
@@ -126,7 +195,7 @@ public class UibRoomApp {
 		} else {
 			JOptionPane.showMessageDialog(gui, "Ingen fil med data tilgjengelig", "Ooops", JOptionPane.ERROR_MESSAGE);
 		}
-	
+
 		return null;
 	}
 

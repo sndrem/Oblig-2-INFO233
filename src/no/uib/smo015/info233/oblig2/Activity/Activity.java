@@ -122,6 +122,5 @@ public class Activity implements ActivityInterface, Serializable {
 
 	public void setEndTime(Calendar endTime) {
 		this.endTime = endTime;
-	}
-	
+	}	
 }

@@ -9,6 +9,7 @@ import java.awt.Toolkit;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -42,6 +43,8 @@ public class Gui extends JFrame {
 	private JLabel timeStartLabel;
 	private JLabel timeEndLabel;
 	private JLabel weekDayLabel;
+	private JButton loadButton;
+	private JButton saveButton;
 
 	public Gui(Parser p){
 		parser = p;
@@ -133,17 +136,31 @@ public class Gui extends JFrame {
 	 * Method to add a textbox to the top panel
 	 */
 	private void setupTopPanel(){
+		setLoadButton(new JButton("Last aktiviteter fra fil"));
+		Event event = new Event(this);
+		getLoadButton().addActionListener(event);
+		topPanel.add(getLoadButton());
 		String[] topics = {"info233", "info110", "info132", "info262", "info216", "info125", "inf144"};
 		searchComboBox = new JComboBox<>(topics);
 		topPanel.add(searchComboBox);
+		JLabel dateInfo = new JLabel("Dagens dato:");
+		Font font = new Font("Arial", Font.BOLD, 15);
+		dateInfo.setFont(font);
 		JLabel todaysDate = new JLabel(DateUtil.getTodaysDate());
+		todaysDate.setFont(font);
+		topPanel.add(dateInfo);
 		topPanel.add(todaysDate);
 		JLabel weekLabel = new JLabel("Uke " + DateUtil.getWeekNumber());
+		weekLabel.setFont(font);
 		topPanel.add(weekLabel);
+		saveButton = new JButton("Lagre aktiv aktivitet");
+		Event saveEvent = new Event(this);
+		saveButton.addActionListener(saveEvent);
+		topPanel.add(saveButton);
 		Event e = new Event(this);
 		searchComboBox.addActionListener(e);
 	}
-
+	
 	/**
 	 * Method to setup the bottom panel
 	 */
@@ -157,7 +174,7 @@ public class Gui extends JFrame {
 	 */
 	private void setupFrame(){
 		// Set the bounds of the application
-		this.setBounds(new Rectangle(800, 500));
+		this.setBounds(new Rectangle(1000, 550));
 		//Set default close operation
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		// Set to object serialization when closing
@@ -400,6 +417,28 @@ public class Gui extends JFrame {
 
 	public void setWeekDayLabel(JLabel weekDayLabel) {
 		this.weekDayLabel = weekDayLabel;
+	}
+
+	public JButton getLoadButton() {
+		return loadButton;
+	}
+
+	public void setLoadButton(JButton loadButton) {
+		this.loadButton = loadButton;
+	}
+
+	/**
+	 * @return the saveButton
+	 */
+	public JButton getSaveButton() {
+		return saveButton;
+	}
+
+	/**
+	 * @param saveButton the saveButton to set
+	 */
+	public void setSaveButton(JButton saveButton) {
+		this.saveButton = saveButton;
 	}
 }
 

@@ -50,7 +50,7 @@ public class DateUtil {
 	 * Method to print out todays date
 	 */
 	public static String getTodaysDate(){
-		SimpleDateFormat format = new SimpleDateFormat("EEEE dd/MM/yyyy");
+		SimpleDateFormat format = new SimpleDateFormat("EEEE dd MMM. yyyy");
 		Date date = new Date();
 		return format.format(date);
 	}

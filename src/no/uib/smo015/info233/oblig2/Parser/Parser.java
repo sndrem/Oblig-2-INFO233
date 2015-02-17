@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import no.uib.smo015.info233.oblig2.Activity.Activity;
 import no.uib.smo015.info233.oblig2.Interfaces.ParserInterface;
 import no.uib.smo015.info233.oblig2.Util.DateUtil;
@@ -43,7 +45,8 @@ public class Parser implements ParserInterface {
 			connect(url);
 			docToLists();
 		} else {
-			System.out.println("Internet is down, Go outside and play");
+			JOptionPane.showMessageDialog(null, "Internett er nede. Du kan forsatt hente aktiviteter som er lagret.", "Internett er nede", JOptionPane.INFORMATION_MESSAGE);
+			
 		}
 	}
 
