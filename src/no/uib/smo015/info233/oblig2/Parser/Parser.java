@@ -28,8 +28,6 @@ public class Parser implements ParserInterface {
 	private List<Node> nodeList;
 	private List<Activity> activityList;
 	private List<String> dateList;
-	private int weekIndex = 0;
-	private int activityIndex = 0;
 
 	/**
 	 * Constructor for the Parser class
@@ -151,7 +149,7 @@ public class Parser implements ParserInterface {
 			}
 
 		}
-		setActivityIndex(getActivityIndex() + 1);
+		
 		activityList.add(new Activity(node, type, room, description, DateUtil
 				.getStartTime(time), DateUtil.getEndTime(time), weekDay));
 	}
@@ -270,22 +268,6 @@ public class Parser implements ParserInterface {
 	 */
 	public void setNodeList(List<Node> nodeList) {
 		this.nodeList = nodeList;
-	}
-
-	public int getActivityIndex() {
-		return activityIndex;
-	}
-
-	public void setActivityIndex(int activityIndex) {
-		this.activityIndex = activityIndex;
-	}
-
-	public int getWeekIndex() {
-		return weekIndex;
-	}
-
-	public void setWeekIndex(int weekIndex) {
-		this.weekIndex = weekIndex;
 	}
 
 }
