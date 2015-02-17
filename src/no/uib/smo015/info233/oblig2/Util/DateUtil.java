@@ -3,6 +3,7 @@ package no.uib.smo015.info233.oblig2.Util;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
@@ -43,6 +44,15 @@ public class DateUtil {
 		}
 		
 		return cal;
+	}
+	
+	/**
+	 * Method to print out todays date
+	 */
+	public static String getTodaysDate(){
+		SimpleDateFormat format = new SimpleDateFormat("EEEE dd/MM/yyyy");
+		Date date = new Date();
+		return format.format(date);
 	}
 	
 	/**

@@ -133,10 +133,11 @@ public class Gui extends JFrame {
 	 * Method to add a textbox to the top panel
 	 */
 	private void setupTopPanel(){
-		// TODO Legg til dagens dato på høyresiden av comboboxen
 		String[] topics = {"info233", "info110", "info132", "info262", "info216", "info125", "inf144"};
 		searchComboBox = new JComboBox<>(topics);
 		topPanel.add(searchComboBox);
+		JLabel todaysDate = new JLabel(DateUtil.getTodaysDate());
+		topPanel.add(todaysDate);
 		JLabel weekLabel = new JLabel("Uke " + DateUtil.getWeekNumber());
 		topPanel.add(weekLabel);
 		Event e = new Event(this);

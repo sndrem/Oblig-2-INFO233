@@ -142,7 +142,7 @@ public class Parser implements ParserInterface {
 			} else if (descendant.hasAttr("title")) {
 				room = descendant.attr("title");
 				Node roomCodeNode = descendant.childNode(0);
-				if(roomCodeNode.childNodeSize() > 1){
+				if(roomCodeNode.childNodeSize() >= 1){
 					roomCode = roomCodeNode.childNode(0).toString();
 				}
 			} else if (descendant.attr("class").equals("time")) {
