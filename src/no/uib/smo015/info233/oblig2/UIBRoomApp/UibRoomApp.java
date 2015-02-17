@@ -34,13 +34,11 @@ public class UibRoomApp {
 					populateList(parser, gui.getListModel());
 					gui.getUrlLabel().setText("Status ok");
 				} else {
-					readFromFile("testGui2");
+					readFromFile("aktivitetsSerialisering");
 					gui.getUrlLabel().setText("Internett er nede");
 				}					
 			}
 		});
-
-
 	}
 
 	/**
@@ -104,7 +102,7 @@ public class UibRoomApp {
 				ObjectInputStream obInput = new ObjectInputStream(input);
 				
 				activityList = (List<Activity>) obInput.readObject();
-
+				
 				input.close();
 				obInput.close();
 				return activityList;

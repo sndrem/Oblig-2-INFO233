@@ -37,7 +37,7 @@ public class WindowEvent implements WindowListener {
 		@Override
 		public void windowClosing(java.awt.event.WindowEvent e) {
 			if(InternetUtil.hasConnectivity()){
-				UibRoomApp.saveFile(gui.getActivityDataList(), "testGui2");
+				UibRoomApp.saveFile(gui.getActivityDataList(), "aktivitetsSerialisering");
 			} else {
 				System.out.println("No connection to internet. \n"
 						+ "I wont overwrite your stuff. No worries bro..");

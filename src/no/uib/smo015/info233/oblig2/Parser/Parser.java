@@ -43,7 +43,8 @@ public class Parser implements ParserInterface {
 			connect(url);
 			docToLists();
 		} else {
-			System.out.println("Internet is down, Go outside and play");
+			System.out.println("Connect to Internet");
+			
 		}
 	}
 
@@ -62,7 +63,7 @@ public class Parser implements ParserInterface {
 			connect(url);
 			docToLists();
 		} else {
-			System.out.println("Internet is down, Go outside and play");
+			System.out.println("Connect to Internet");
 		}
 	}
 
