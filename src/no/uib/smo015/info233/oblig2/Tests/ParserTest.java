@@ -26,6 +26,5 @@ public class ParserTest {
 		int size = testParser.getNodeList().size();
 		assertEquals(size, nodesFrom233);
 	}
-	
 
 }

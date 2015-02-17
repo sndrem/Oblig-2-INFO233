@@ -48,10 +48,15 @@ public class Activity implements ActivityInterface, Serializable {
 		String format = "HH:mm dd.MM.yyyy";
 		setStartTime(DateUtil.stringToCalendar(startStringTime + " " + DateUtil.removeNameOfDay(weekDay), format));
 		setEndTime(DateUtil.stringToCalendar(endStringTime + " " + DateUtil.removeNameOfDay(weekDay), format));
-		
-		
 	}
 
+	public String toString(){
+		SimpleDateFormat sdf = new SimpleDateFormat("EEEE/MMM - yyyy HH:mm");
+		String info = type + " skjer på " + room + ", " +  sdf.format(startTime.getTime()) + " og slutter " + sdf.format(endTime.getTime()) + " "
+				+ " Beskrivelse: " + description;
+		return info;
+	}
+	
 	@Override
 	public Node getNode() {
 		return activityNode;
@@ -90,12 +95,6 @@ public class Activity implements ActivityInterface, Serializable {
 		this.activityNode = activityNode;
 	}
 	
-	public String toString(){
-		SimpleDateFormat sdf = new SimpleDateFormat("EEEE/MMM - yyyy HH:mm");
-		String info = type + " skjer på " + room + ", " +  sdf.format(startTime.getTime()) + " og slutter " + sdf.format(endTime.getTime()) + " "
-				+ " Beskrivelse: " + description;
-		return info;
-	}
 
 	public String getEndTimeString() {
 		return endTimeString;

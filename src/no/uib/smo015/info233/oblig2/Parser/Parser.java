@@ -100,7 +100,6 @@ public class Parser implements ParserInterface {
 			if (node.attr("class").equals("week-data")) {
 				nodeToActivity(node);
 			}
-
 		}
 	}
 
@@ -150,7 +149,7 @@ public class Parser implements ParserInterface {
 			} 
 
 		}
-		
+
 		activityList.add(new Activity(node, type, room, roomCode, description, DateUtil
 				.getStartTime(time), DateUtil.getEndTime(time), weekDay));
 	}
