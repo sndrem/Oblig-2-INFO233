@@ -51,6 +51,7 @@ public class DateUtil {
 		return weekNumber;
 	}
 	
+	
 	/**
 	 * Method to return todays date and time as a string
 	 * @return date	Todays date

@@ -18,7 +18,7 @@ public class Activity implements ActivityInterface, Serializable {
 	private Calendar startTime, endTime;
 	private transient Node activityNode;
 	
-	public Activity(Node activityNode, String type, String room, String description, String startStringTime, String endStringTime){
+	public Activity(Node activityNode, String type, String room, String description, String startStringTime, String endStringTime, String weekDay){
 		this.type = type;
 		this.room = room;
 		this.description = description;
@@ -27,6 +27,7 @@ public class Activity implements ActivityInterface, Serializable {
 		this.setActivityNode(activityNode);
 		startTime = Calendar.getInstance();
 		endTime = Calendar.getInstance();
+		
 	}
 
 	@Override

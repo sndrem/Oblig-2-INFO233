@@ -87,235 +87,210 @@ public class Parser implements ParserInterface {
 	public void docToLists() {
 		nodesToList(root, null, nodeList);
 
-
 		for (Node node : nodeList) {
-
-			if(node.nodeName().equals("td") && node.hasAttr("valign")){
-
-				System.out.println(getTrueActivityIndex(node) + " " + node);
-//				System.out.println(node);
-			
-		
-	}
-
-	if (node.attr("class").equals("week-data")) {
-		nodeToActivity(node);
-	}
-
-	if (node.attr("class").equals("week-header") && node.nodeName().equals("tr")){
-		if(node instanceof TextNode){
-			TextNode tn = (TextNode) node;
-			if(DateUtil.getWeekDays(tn)){
-				System.out.println(tn.text());
+			if (node.attr("class").equals("week-header") && node.nodeName().equals("tr")){
+				//Legg til datoene, yippikayey motherfucker
+				for (int i = 1; i < 6; i++){
+					dateList.add(node.childNode(i).childNode(0).toString());
+				}
 			}
-		} else {
-//			Printer ut en dato
-//			System.out.println(node.childNode(2));
+
+			if (node.attr("class").equals("week-data")) {
+				nodeToActivity(node);
+			}
+
 		}
 	}
-	//			nodeToDateStringList(node);
-}
-}
 
-public int getTrueActivityIndex(Node node){
-	int i = 0;
-	for(Node n : node.parent().childNodes()){
-		if(!n.nodeName().equals("th")){
-			if(n.equals(node)){
-				return i;
-			}
+	public int getTrueActivityIndex(Node node, int i, String match){
+		node = node.previousSibling();
+		if(node == null)
+			return i;
+
+		if (node.nodeName().equals(match))
 			i++;
-		}
-	}
-	return i;
-}
-
-/**
- * Method to add a timestring to the dateStringList
- * 
- * @param node
- *            TODO Denne virker ikke. Fiks den
- */
-private void nodeToDateStringList(Node node) {
-	//		dateList.add(RecursiveUtil.getFirstTextChild(node).text());
-	//		System.out.println(RecursiveUtil.getFirstTextChild(node).text());
-}
-
-/**
- * Method to add an activity to the activity list
- * @param node
- */
-private void nodeToActivity(Node node) {
-	//TODO Fiks den jævla datoen!!
-	List<Node> descendants = new ArrayList<>();
-	nodesToList(node, node.parent(), descendants);
-	String type = "", room = "", description = "", time = "";
-
-	for (Node descendant : descendants) {
-		if (descendant.attr("class").equals("activity")) {
-			TextNode textNode = (TextNode) descendant.childNode(0);
-			type = textNode.text();
-		} else if (descendant.attr("class").equals("item_desc")) {
-			TextNode textNode = (TextNode) descendant.childNode(0);
-			description = textNode.text();
-		} else if (descendant.hasAttr("title")) {
-			room = descendant.attr("title");
-		} else if (descendant.attr("class").equals("time")) {
-			TextNode textNode = (TextNode) descendant.childNode(0);
-			time = textNode.text();
-			// TODO Oppdater konstruktøren for Activity så den tar inn
-			// klokkeslettet også.
-		}
+		return getTrueActivityIndex(node, i, match);
 
 	}
-	setActivityIndex(getActivityIndex() + 1);
-	activityList.add(new Activity(node, type, room, description, DateUtil
-			.getStartTime(time), DateUtil.getEndTime(time)));
-}
 
-/**
- * Method to recursively traverse the html document
- * 
- * @param node
- *            Whole document
- * @param parent
- *            The Parent
- * @param nodeList
- *            the list of nodes
- */
-@Override
-public List<Node> nodesToList(Node node, Node parent, List<Node> nodeList) {
+	/**
+	 * Method to add an activity to the activity list
+	 * @param node
+	 */
+	private void nodeToActivity(Node node) {
+		//TODO Fiks den jævla datoen!!
+		List<Node> descendants = new ArrayList<>();
+		nodesToList(node, node.parent(), descendants);
+		String type = "", room = "", description = "", time = "";
+		int weekIndex = getTrueActivityIndex(node, 1, "td");
+		String weekDay = dateList.get(weekIndex - 1);
+		System.out.println(dateList.size() + " " + weekIndex + " " + weekDay);
 
-	if (node.childNodeSize() > 0) {
-		Node child = node.childNode(0);
-		while (child != null) {
-			nodeList.add(child);
-			nodesToList(child, child.parentNode(), nodeList);
-			child = child.nextSibling();
+		for (Node descendant : descendants) {
+			if (descendant.attr("class").equals("activity")) {
+				TextNode textNode = (TextNode) descendant.childNode(0);
+				type = textNode.text();
+			} else if (descendant.attr("class").equals("item_desc")) {
+				TextNode textNode = (TextNode) descendant.childNode(0);
+				description = textNode.text();
+			} else if (descendant.hasAttr("title")) {
+				room = descendant.attr("title");
+			} else if (descendant.attr("class").equals("time")) {
+				TextNode textNode = (TextNode) descendant.childNode(0);
+				time = textNode.text();
+				// TODO Oppdater konstruktøren for Activity så den tar inn
+				// klokkeslettet også.
+			}
+
 		}
+		setActivityIndex(getActivityIndex() + 1);
+		activityList.add(new Activity(node, type, room, description, DateUtil
+				.getStartTime(time), DateUtil.getEndTime(time), weekDay));
 	}
-	return nodeList;
-}
 
-@Override
-public List<Node> getNodeList() {
-	return nodeList;
-}
+	/**
+	 * Method to recursively traverse the html document
+	 * 
+	 * @param node
+	 *            Whole document
+	 * @param parent
+	 *            The Parent
+	 * @param nodeList
+	 *            the list of nodes
+	 */
+	@Override
+	public List<Node> nodesToList(Node node, Node parent, List<Node> nodeList) {
 
-@Override
-public List<Activity> getActivityList() {
-	return activityList;
-}
+		if (node.childNodeSize() > 0) {
+			Node child = node.childNode(0);
+			while (child != null) {
+				nodeList.add(child);
+				nodesToList(child, child.parentNode(), nodeList);
+				child = child.nextSibling();
+			}
+		}
+		return nodeList;
+	}
 
-public void setActivityList(List<Activity> activities) {
-	this.activityList = activities;
-}
+	@Override
+	public List<Node> getNodeList() {
+		return nodeList;
+	}
 
-/**
- * Method to add an activity to the activitylist
- * 
- * @param activity
- *            An activity to be added
- */
-public void addActivity(Activity activity) {
-	activityList.add(activity);
-}
+	@Override
+	public List<Activity> getActivityList() {
+		return activityList;
+	}
 
-@Override
-public List<String> getDateStringList() {
-	return dateList;
-}
+	public void setActivityList(List<Activity> activities) {
+		this.activityList = activities;
+	}
 
-public String getUrl() {
-	return url;
-}
+	/**
+	 * Method to add an activity to the activitylist
+	 * 
+	 * @param activity
+	 *            An activity to be added
+	 */
+	public void addActivity(Activity activity) {
+		activityList.add(activity);
+	}
 
-public void setUrl(String url) {
-	this.url = url;
-}
+	@Override
+	public List<String> getDateStringList() {
+		return dateList;
+	}
 
-/**
- * @return the rootDocument
- */
-public Document getRootDocument() {
-	return rootDocument;
-}
+	public String getUrl() {
+		return url;
+	}
 
-/**
- * @param rootDocument
- *            the rootDocument to set
- */
-public void setRootDocument(Document rootDocument) {
-	this.rootDocument = rootDocument;
-}
+	public void setUrl(String url) {
+		this.url = url;
+	}
 
-/**
- * @return the root
- */
-public Node getRoot() {
-	return root;
-}
+	/**
+	 * @return the rootDocument
+	 */
+	public Document getRootDocument() {
+		return rootDocument;
+	}
 
-/**
- * @param root
- *            the root to set
- */
-public void setRoot(Node root) {
-	this.root = root;
-}
+	/**
+	 * @param rootDocument
+	 *            the rootDocument to set
+	 */
+	public void setRootDocument(Document rootDocument) {
+		this.rootDocument = rootDocument;
+	}
 
-/**
- * @return the listActivities
- */
-public List<Activity> getListActivities() {
-	return activityList;
-}
+	/**
+	 * @return the root
+	 */
+	public Node getRoot() {
+		return root;
+	}
 
-/**
- * @param listActivities
- *            the listActivities to set
- */
-public void setListActivities(List<Activity> listActivities) {
-	this.activityList = listActivities;
-}
+	/**
+	 * @param root
+	 *            the root to set
+	 */
+	public void setRoot(Node root) {
+		this.root = root;
+	}
 
-/**
- * @return the dateList
- */
-public List<String> getDateList() {
-	return dateList;
-}
+	/**
+	 * @return the listActivities
+	 */
+	public List<Activity> getListActivities() {
+		return activityList;
+	}
 
-/**
- * @param dateList
- *            the dateList to set
- */
-public void setDateList(List<String> dateList) {
-	this.dateList = dateList;
-}
+	/**
+	 * @param listActivities
+	 *            the listActivities to set
+	 */
+	public void setListActivities(List<Activity> listActivities) {
+		this.activityList = listActivities;
+	}
 
-/**
- * @param nodeList
- *            the nodeList to set
- */
-public void setNodeList(List<Node> nodeList) {
-	this.nodeList = nodeList;
-}
+	/**
+	 * @return the dateList
+	 */
+	public List<String> getDateList() {
+		return dateList;
+	}
 
-public int getActivityIndex() {
-	return activityIndex;
-}
+	/**
+	 * @param dateList
+	 *            the dateList to set
+	 */
+	public void setDateList(List<String> dateList) {
+		this.dateList = dateList;
+	}
 
-public void setActivityIndex(int activityIndex) {
-	this.activityIndex = activityIndex;
-}
+	/**
+	 * @param nodeList
+	 *            the nodeList to set
+	 */
+	public void setNodeList(List<Node> nodeList) {
+		this.nodeList = nodeList;
+	}
 
-public int getWeekIndex() {
-	return weekIndex;
-}
+	public int getActivityIndex() {
+		return activityIndex;
+	}
 
-public void setWeekIndex(int weekIndex) {
-	this.weekIndex = weekIndex;
-}
+	public void setActivityIndex(int activityIndex) {
+		this.activityIndex = activityIndex;
+	}
+
+	public int getWeekIndex() {
+		return weekIndex;
+	}
+
+	public void setWeekIndex(int weekIndex) {
+		this.weekIndex = weekIndex;
+	}
 
 }
