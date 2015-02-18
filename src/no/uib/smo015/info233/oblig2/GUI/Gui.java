@@ -58,19 +58,6 @@ public class Gui extends JFrame {
 		this.setVisible(true);
 	}
 
-	//	private void createTable() {
-	//		
-	//		
-	//		for(Activity activity : activityList){
-	//			activities = new Object[][] {{activity.getRoom(), activity.getType(), activity.getStartTimeString(),
-	//									activity.getEndTimeString(), activity.getDescription()}};
-	//		}
-	//		
-	//		Object[][] realActivities = new Object[activityList.size()][activityList.size()];
-	//		JTable activityTable = new JTable(activities, columnHeader);
-	//		JScrollPane tableScroll = new JScrollPane(activityTable);
-	//		centerPanel.add(tableScroll);
-	//	}
 
 	/**
 	 * Method to show the information for an activity
@@ -80,7 +67,6 @@ public class Gui extends JFrame {
 		activityList = new JList<>(listModel);
 		activityList.addListSelectionListener(new ListEvent(this));
 		activityList.setSelectedIndex(0);
-//		activityList.setBorder(new TitledBorder("Aktiviteter"));
 		JScrollPane listScrollPane = new JScrollPane(activityList);
 		centerPanel.add(listScrollPane, BorderLayout.NORTH);		
 	}
@@ -140,7 +126,7 @@ public class Gui extends JFrame {
 		Event event = new Event(this);
 		getLoadButton().addActionListener(event);
 		topPanel.add(getLoadButton());
-		String[] topics = {"info233", "info110", "info132", "info262", "info216", "info125", "inf144"};
+		String[] topics = {"info233", "info110", "info132", "info262", "info216", "info125", "inf144", "NOLI103"};
 		searchComboBox = new JComboBox<>(topics);
 		topPanel.add(searchComboBox);
 		JLabel dateInfo = new JLabel("Dagens dato:");

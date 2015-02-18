@@ -39,7 +39,6 @@ public class UibRoomApp {
 					gui.getLoadButton().setEnabled(false);
 				} else {
 					List<Activity> activityList = readFromFile("testGui2");
-					System.out.println(activityList.size());
 					DefaultListModel<Activity> activityModel = new DefaultListModel<>();
 					for(Activity a : activityList){
 						activityModel.addElement(a);
@@ -50,7 +49,7 @@ public class UibRoomApp {
 			}
 		});
 	}
-
+	
 	/**
 	 * Method to populate the list of the gui with activities
 	 * @param parser
@@ -109,7 +108,7 @@ public class UibRoomApp {
 			System.out.println("Writing objects....");
 			out.close();
 			output.close();
-			System.out.println(fileName + " was written to a file");
+			System.out.println(fileName + ".ser was written to a file");
 			return true;
 		} catch (IOException e) {
 			System.out.println("Something went wrong");
@@ -123,6 +122,7 @@ public class UibRoomApp {
 	 * @param fileName
 	 * @return DefaultListModel<Activity>
 	 */
+	@SuppressWarnings("unchecked")
 	public static DefaultListModel<Activity> fetchSerializedFile(String fileName){
 		DefaultListModel<Activity> activityModel = new DefaultListModel<>();
 		File inputFile = new File(fileName + ".ser");
@@ -163,10 +163,10 @@ public class UibRoomApp {
 	 * @param fileName
 	 * @return a list of activities
 	 */
+	@SuppressWarnings("unchecked")
 	public static List<Activity> readFromFile(String fileName) {
 		File inputFile = new File(fileName + ".ser");
 		if (inputFile.exists()) {
-			System.out.println("The file " + fileName + " exists");
 			FileInputStream input = null;
 			List<Activity> activityList = new ArrayList<Activity>();
 			try {

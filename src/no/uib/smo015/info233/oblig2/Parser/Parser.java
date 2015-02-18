@@ -46,7 +46,6 @@ public class Parser implements ParserInterface {
 			docToLists();
 		} else {
 			JOptionPane.showMessageDialog(null, "Internett er nede. Du kan forsatt hente aktiviteter som er lagret.", "Internett er nede", JOptionPane.INFORMATION_MESSAGE);
-			
 		}
 	}
 
