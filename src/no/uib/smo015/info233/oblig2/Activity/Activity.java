@@ -51,8 +51,10 @@ public class Activity implements ActivityInterface, Serializable {
 	}
 
 	public String toString(){
-		SimpleDateFormat sdf = new SimpleDateFormat("EEEE/MMM - yyyy HH:mm");
-		String info = type + " skjer på " + room + ", " +  sdf.format(startTime.getTime()) + " og slutter " + sdf.format(endTime.getTime()) + " "
+//		SimpleDateFormat sdf = new SimpleDateFormat("EEEE/ dd-MM- yyyy HH:mm");
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("EEEE dd MMM. yyyy HH:mm");
+		String info = type + ", Bygg: " + room + ", " +  sdf.format(startTime.getTime()) + " og slutter " + sdf.format(endTime.getTime()) + " "
 				+ " Beskrivelse: " + description;
 		return info;
 	}
@@ -86,41 +88,90 @@ public class Activity implements ActivityInterface, Serializable {
 	public String getDescription() {
 		return this.description;
 	}
-	
-	public Node getActivityNode() {
-		return activityNode;
-	}
 
-	public void setActivityNode(Node activityNode) {
-		this.activityNode = activityNode;
-	}
-	
-
-	public String getEndTimeString() {
-		return endTimeString;
-	}
-
-	public void setEndTimeString(String endTimeString) {
-		this.endTimeString = endTimeString;
-	}
-
+	/**
+	 * @return the startTimeString
+	 */
 	public String getStartTimeString() {
 		return startTimeString;
 	}
 
+	/**
+	 * @param startTimeString the startTimeString to set
+	 */
 	public void setStartTimeString(String startTimeString) {
 		this.startTimeString = startTimeString;
 	}
 
+	/**
+	 * @return the endTimeString
+	 */
+	public String getEndTimeString() {
+		return endTimeString;
+	}
+
+	/**
+	 * @param endTimeString the endTimeString to set
+	 */
+	public void setEndTimeString(String endTimeString) {
+		this.endTimeString = endTimeString;
+	}
+
+	/**
+	 * @return the startTime
+	 */
 	public Calendar getStartTime() {
 		return startTime;
 	}
 
+	/**
+	 * @param startTime the startTime to set
+	 */
 	public void setStartTime(Calendar startTime) {
 		this.startTime = startTime;
 	}
 
+	/**
+	 * @return the activityNode
+	 */
+	public Node getActivityNode() {
+		return activityNode;
+	}
+
+	/**
+	 * @param activityNode the activityNode to set
+	 */
+	public void setActivityNode(Node activityNode) {
+		this.activityNode = activityNode;
+	}
+
+	/**
+	 * @param type the type to set
+	 */
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	/**
+	 * @param room the room to set
+	 */
+	public void setRoom(String room) {
+		this.room = room;
+	}
+
+	/**
+	 * @param description the description to set
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	/**
+	 * @param endTime the endTime to set
+	 */
 	public void setEndTime(Calendar endTime) {
 		this.endTime = endTime;
-	}	
+	}
+	
+
 }

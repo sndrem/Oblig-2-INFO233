@@ -49,9 +49,13 @@ public class Gui extends JFrame {
 	private JButton searchButton;
 	private JTextField textField;
 
-	public Gui(Parser p){
-		parser = p;
-		activityDataList = p.getActivityList();
+	/**
+	 * Constructor for the gui class
+	 * @param parser
+	 */
+	public Gui(Parser parser){
+		this.parser = parser;
+		activityDataList = parser.getActivityList();
 		setupFrame();
 		createPanels();
 		setupTopPanel();
@@ -60,7 +64,6 @@ public class Gui extends JFrame {
 		setupActivityLabels();
 		this.setVisible(true);
 	}
-
 
 	/**
 	 * Method to show the information for an activity
@@ -126,25 +129,23 @@ public class Gui extends JFrame {
 	 */
 	private void setupTopPanel(){
 		setLoadButton(new JButton("Last aktiviteter fra fil"));
-		Event event = new Event(this);
-		getLoadButton().addActionListener(event);
+		getLoadButton().addActionListener(new Event(this));
 		topPanel.add(getLoadButton());
 		String[] topics = {"info233", "info110", "info132", "info262", "info216", "info125", "inf144", "NOLI103"};
 		searchComboBox = new JComboBox<>(topics);
 		topPanel.add(searchComboBox);
-		JLabel dateInfo = new JLabel("Dagens dato:");
 		Font font = new Font("Arial", Font.BOLD, 15);
-		dateInfo.setFont(font);
+		JLabel dateInfo = new JLabel("Dagens dato:");
 		JLabel todaysDate = new JLabel(DateUtil.getTodaysDate());
+		dateInfo.setFont(font);
 		todaysDate.setFont(font);
 		topPanel.add(dateInfo);
 		topPanel.add(todaysDate);
 		JLabel weekLabel = new JLabel("Uke " + DateUtil.getWeekNumber());
 		weekLabel.setFont(font);
 		topPanel.add(weekLabel);
-		saveButton = new JButton("Lagre aktiv aktivitet");
-		Event saveEvent = new Event(this);
-		saveButton.addActionListener(saveEvent);
+		saveButton = new JButton("Lagre aktive aktivitet");
+		saveButton.addActionListener(new Event(this));
 		topPanel.add(saveButton);
 		Event e = new Event(this);
 		searchComboBox.addActionListener(e);
@@ -154,11 +155,11 @@ public class Gui extends JFrame {
 	 * Method to setup the bottom panel
 	 */
 	private void setupBottomPanel(){
-		JLabel infoLabel = new JLabel("Søk..");
+		JLabel infoLabel = new JLabel("Search area");
 		bottomPanel.add(infoLabel);
 		setTextField(new JTextField(20));
 		bottomPanel.add(getTextField());
-		setSearchButton(new JButton("Søk"));
+		setSearchButton(new JButton("Search"));
 		getSearchButton().addActionListener(new Event(this));
 		bottomPanel.add(getSearchButton());
 		urlLabel = new JLabel("");
@@ -437,25 +438,36 @@ public class Gui extends JFrame {
 		this.saveButton = saveButton;
 	}
 
-
+	/**
+	 * @return the searchButton
+	 */
 	public JButton getSearchButton() {
 		return searchButton;
 	}
 
-
+	/**
+	 * @param searchButton the searchButton to set
+	 */
 	public void setSearchButton(JButton searchButton) {
 		this.searchButton = searchButton;
 	}
 
-
+	/**
+	 * @return the textField
+	 */
 	public JTextField getTextField() {
 		return textField;
 	}
 
-
+	/**
+	 * @param textField the textField to set
+	 */
 	public void setTextField(JTextField textField) {
 		this.textField = textField;
 	}
+
+
+
 }
 
 

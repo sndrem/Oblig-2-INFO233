@@ -16,6 +16,7 @@ public class InternetUtil {
 	 */
 	public static boolean hasConnectivity(){
 		Socket socket = new Socket();
+		// I chose www.google.com because of the fact that google hardly ever is offline
 		InetSocketAddress adress = new InetSocketAddress("www.google.com", 80);
 		
 		try{

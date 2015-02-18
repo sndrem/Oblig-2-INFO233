@@ -34,11 +34,11 @@ public class Event implements ActionListener {
 
 	/**
 	 * Method to respond on a user event
-	 * @param ActionEvent e
+	 * @param event
 	 */
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == gui.getSearchComboBox()){
+	public void actionPerformed(ActionEvent event) {
+		if(event.getSource() == gui.getSearchComboBox()){
 			if(InternetUtil.hasConnectivity()){
 				String searchTerm = (String) gui.getSearchComboBox().getSelectedItem();
 				String searchUrl = "http://rom.app.uib.no/ukesoversikt/?entry=emne&input=" + searchTerm;
@@ -47,6 +47,7 @@ public class Event implements ActionListener {
 				UibRoomApp.populateList(parser, gui.getListModel());
 				parser.docToLists();
 				gui.getUrlLabel().setText("Status: ok");
+				gui.getTextField().setText("");
 				if(gui.getActivityDataList().size() > 0){
 					gui.getUrlLabel().setText("Status ok");
 					gui.getActivityList().setSelectedIndex(0);
@@ -58,7 +59,7 @@ public class Event implements ActionListener {
 				gui.getLoadButton().setEnabled(true);
 				JOptionPane.showMessageDialog(gui, "Vennligst koble deg til internett", "Internett er nede", JOptionPane.ERROR_MESSAGE);
 			}
-		} else if (e.getSource() == gui.getLoadButton()){
+		} else if (event.getSource() == gui.getLoadButton()){
 			JFileChooser chooser = new JFileChooser(".");
 			int choice = chooser.showOpenDialog(gui);
 			if(choice == JFileChooser.APPROVE_OPTION){
@@ -70,14 +71,14 @@ public class Event implements ActionListener {
 				gui.getActivityList().revalidate();
 			}
 			
-		} else if (e.getSource() == gui.getSaveButton()){
+		} else if (event.getSource() == gui.getSaveButton()){
 			JFileChooser chooser = new JFileChooser(".");
 			int choice = chooser.showSaveDialog(gui);
 			if(choice == JFileChooser.APPROVE_OPTION){
 				File file = chooser.getSelectedFile();
 				UibRoomApp.saveFile(file.getName());
 			}
-		} else if (e.getSource() == gui.getSearchButton()){
+		} else if (event.getSource() == gui.getSearchButton()){
 			String searchResult = gui.getTextField().getText();
 			if(searchResult != null){
 				String searchUrl = "http://rom.app.uib.no/ukesoversikt/?entry=emne&input=" + searchResult;

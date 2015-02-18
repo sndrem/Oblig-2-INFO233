@@ -25,7 +25,7 @@ public class ParserTest {
 	public void setUp() throws Exception {
 		testParser = new Parser(url);
 		htmlTest = "<head>	"
-				+ "<title>Hey og hå, en testfil her</title>"
+				+ "<title>Hey, en testfil her</title>"
 				+ "</head>"
 				+ "<body>"
 				+ "<td valign='top' rowspan='2' class='week-data'><span class='item_type'><span  class='activity'>INFO233 lab</span></span> <span class='time'>10:15-12:00</span><br><span class='item_desc'>Labgruppe 1</span> <span class='item_room' title='PC-lab 205'><a href='/rominfo/index.php?roomid=UP%3A205' target='_blank' style='text-decoration: none;color:#000'>UP:205</a></span></td>"

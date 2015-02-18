@@ -20,11 +20,21 @@ import no.uib.smo015.info233.oblig2.GUI.Gui;
 import no.uib.smo015.info233.oblig2.Parser.Parser;
 import no.uib.smo015.info233.oblig2.Util.InternetUtil;
 
+/**
+ * Class used to represent the application as a whole. The application can fetch activities from a given url, and 
+ * parse the data back into a list which is easy to look trough. The list is sorted from monday to friday.
+ * @author sindremoldeklev
+ *
+ */
 public class UibRoomApp {
 
 	private static Gui gui;
 	private static Parser parser;
 
+	/**
+	 * Main method for the application
+	 * @param args
+	 */
 	public static void main(String[] args) {
 
 		parser = new Parser("http://rom.app.uib.no/ukesoversikt/?entry=emne&input=info233");
@@ -69,6 +79,10 @@ public class UibRoomApp {
 		}
 	}
 	
+	/**
+	 * Method to populate the list of the gui with activities. This method does not use the parser
+	 * @param activityModel
+	 */
 	public static void populateList(DefaultListModel<Activity> activityModel){
 		List<Activity> tempList = new ArrayList<>();
 		for(int i = 0; i < activityModel.size(); i++){
@@ -89,9 +103,10 @@ public class UibRoomApp {
 
 	/**
 	 * Method to save a file with activities
-	 * @param listOfObjects
+	 * The user does not need to provide a file ending, but it works even though
+	 * the user wrote a file ending such as .ser
 	 * @param fileName
-	 * @return true if the file is saved, false otherwise
+	 * @return boolean true if the file is saved, false otherwise
 	 */
 	public static boolean saveFile(String fileName) {
 		FileOutputStream output;
@@ -155,8 +170,6 @@ public class UibRoomApp {
 		}
 		return activityModel;
 	}
-
-
 
 	/**
 	 * Method to read from a file

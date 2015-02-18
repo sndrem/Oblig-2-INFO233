@@ -109,8 +109,8 @@ public class Parser implements ParserInterface {
 	 * Method used to retrieve the correct index of the week for an activity.
 	 * @param node
 	 * @param i
-	 * @param match
-	 * @return
+	 * @param tableData
+	 * @return int
 	 */
 	public int getTrueActivityIndex(Node node, int i, String tableData){
 		node = node.previousSibling();
