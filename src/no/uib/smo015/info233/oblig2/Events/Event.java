@@ -77,6 +77,22 @@ public class Event implements ActionListener {
 				File file = chooser.getSelectedFile();
 				UibRoomApp.saveFile(file.getName());
 			}
+		} else if (e.getSource() == gui.getSearchButton()){
+			String searchResult = gui.getTextField().getText();
+			if(searchResult != null){
+				String searchUrl = "http://rom.app.uib.no/ukesoversikt/?entry=emne&input=" + searchResult;
+				gui.getActivityDataList().clear();
+				Parser parser = new Parser(searchUrl, gui.getActivityDataList());
+				UibRoomApp.populateList(parser, gui.getListModel());
+				parser.docToLists();
+				gui.getUrlLabel().setText("Status: ok");
+				if(gui.getActivityDataList().size() > 0){
+					gui.getUrlLabel().setText("Status ok");
+					gui.getActivityList().setSelectedIndex(0);
+				} else {
+					gui.setBlankLabels();
+				}
+			}
 		}
 
 	}

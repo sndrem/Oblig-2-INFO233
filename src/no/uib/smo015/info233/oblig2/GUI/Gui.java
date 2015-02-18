@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 import no.uib.smo015.info233.oblig2.Activity.Activity;
@@ -45,6 +46,8 @@ public class Gui extends JFrame {
 	private JLabel weekDayLabel;
 	private JButton loadButton;
 	private JButton saveButton;
+	private JButton searchButton;
+	private JTextField textField;
 
 	public Gui(Parser p){
 		parser = p;
@@ -151,6 +154,13 @@ public class Gui extends JFrame {
 	 * Method to setup the bottom panel
 	 */
 	private void setupBottomPanel(){
+		JLabel infoLabel = new JLabel("Søk..");
+		bottomPanel.add(infoLabel);
+		setTextField(new JTextField(20));
+		bottomPanel.add(getTextField());
+		setSearchButton(new JButton("Søk"));
+		getSearchButton().addActionListener(new Event(this));
+		bottomPanel.add(getSearchButton());
 		urlLabel = new JLabel("");
 		bottomPanel.add(urlLabel);
 	}
@@ -425,6 +435,26 @@ public class Gui extends JFrame {
 	 */
 	public void setSaveButton(JButton saveButton) {
 		this.saveButton = saveButton;
+	}
+
+
+	public JButton getSearchButton() {
+		return searchButton;
+	}
+
+
+	public void setSearchButton(JButton searchButton) {
+		this.searchButton = searchButton;
+	}
+
+
+	public JTextField getTextField() {
+		return textField;
+	}
+
+
+	public void setTextField(JTextField textField) {
+		this.textField = textField;
 	}
 }
 
