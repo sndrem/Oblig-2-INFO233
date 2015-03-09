@@ -4,10 +4,13 @@ package no.uib.smo015.info233.oblig2.Events;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.List;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
+import no.uib.smo015.info233.oblig2.Activity.Activity;
 import no.uib.smo015.info233.oblig2.GUI.Gui;
 import no.uib.smo015.info233.oblig2.Parser.Parser;
 import no.uib.smo015.info233.oblig2.UIBRoomApp.UibRoomApp;
@@ -68,7 +71,12 @@ public class Event implements ActionListener {
 				File file = chooser.getSelectedFile();
 				String fileName = FilenameUtils.removeExtension(file.getName());
 				
-				UibRoomApp.populateList(UibRoomApp.fetchSerializedFile(fileName));
+				DefaultListModel<Activity> activityModel = new DefaultListModel<>();
+				List<Activity> activityList = UibRoomApp.readFromFile(fileName);
+				for(Activity a : activityList){
+					activityModel.addElement(a);
+				}
+				UibRoomApp.populateList(activityModel);
 				gui.getActivityList().revalidate();
 			}
 			

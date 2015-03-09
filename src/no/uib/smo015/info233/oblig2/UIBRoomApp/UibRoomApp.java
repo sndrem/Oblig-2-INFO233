@@ -79,7 +79,7 @@ public class UibRoomApp {
 	 * @param listModel
 	 */
 	public static void populateList(Parser parser,
-			DefaultListModel<Activity> listModel) {
+		DefaultListModel<Activity> listModel) {
 		listModel.clear();
 		// Sort the list so that the activities are sorted by start time
 		Collections.sort(parser.getActivityList(), new Comparator<Activity>() {
@@ -110,7 +110,6 @@ public class UibRoomApp {
 		for(Activity a : tempList){
 			gui.getListModel().addElement(a);
 		}
-		
 		
 	}
 
@@ -145,44 +144,6 @@ public class UibRoomApp {
 		}
 	}
 	
-	/**
-	 * Method to retrieve a serialized file
-	 * @param fileName
-	 * @return DefaultListModel<Activity>
-	 */
-	@SuppressWarnings("unchecked")
-	public static DefaultListModel<Activity> fetchSerializedFile(String fileName){
-		DefaultListModel<Activity> activityModel = new DefaultListModel<>();
-		File inputFile = new File(fileName + ".ser");
-		if(inputFile.exists()){
-			FileInputStream inputStream = null;
-			ObjectInputStream obInput = null;
-			
-			try{
-				inputStream = new FileInputStream(inputFile);
-				obInput = new ObjectInputStream(inputStream);
-				
-				List<Activity> tempList = new ArrayList<>();
-				
-				tempList = (List<Activity>) obInput.readObject();
-				
-				for(Activity activity : tempList){
-					activityModel.addElement(activity);
-				}
-				
-			} catch (IOException | ClassNotFoundException e){
-				e.printStackTrace();
-			} finally{
-				try{
-					inputStream.close();
-					obInput.close();
-				} catch (Exception e){
-					e.printStackTrace();
-				}
-			}
-		}
-		return activityModel;
-	}
 
 	/**
 	 * Method to read from a file
@@ -190,39 +151,39 @@ public class UibRoomApp {
 	 * @return a list of activities
 	 */
 	@SuppressWarnings("unchecked")
-	public static List<Activity> readFromFile(String fileName) {
-		File inputFile = new File(fileName + ".ser");
-		if (inputFile.exists()) {
-			FileInputStream input = null;
-			List<Activity> activityList = new ArrayList<Activity>();
-			try {
-				input = new FileInputStream(inputFile);
-				ObjectInputStream obInput = new ObjectInputStream(input);
-
-				activityList = (List<Activity>) obInput.readObject();
-
-				input.close();
-				obInput.close();
-				return activityList;
-
-			} catch (IOException e) {
-				e.printStackTrace();
-				return null;
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-				return null;
-			} finally {
+		public static List<Activity> readFromFile(String fileName) {
+			File inputFile = new File(fileName + ".ser");
+			if (inputFile.exists()) {
+				FileInputStream input = null;
+				List<Activity> activityList = new ArrayList<Activity>();
 				try {
+					input = new FileInputStream(inputFile);
+					ObjectInputStream obInput = new ObjectInputStream(input);
+	
+					activityList = (List<Activity>) obInput.readObject();
+	
 					input.close();
-				} catch (Exception e) {
+					obInput.close();
+					return activityList;
+	
+				} catch (IOException e) {
 					e.printStackTrace();
+					return null;
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+					return null;
+				} finally {
+					try {
+						input.close();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
+			} else {
+				JOptionPane.showMessageDialog(gui, "Ingen fil med data tilgjengelig", "Ooops", JOptionPane.ERROR_MESSAGE);
 			}
-		} else {
-			JOptionPane.showMessageDialog(gui, "Ingen fil med data tilgjengelig", "Ooops", JOptionPane.ERROR_MESSAGE);
+	
+			return null;
 		}
-
-		return null;
-	}
 
 }

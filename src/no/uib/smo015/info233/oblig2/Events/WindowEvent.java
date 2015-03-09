@@ -2,7 +2,6 @@ package no.uib.smo015.info233.oblig2.Events;
 
 import java.awt.event.WindowListener;
 
-import no.uib.smo015.info233.oblig2.GUI.Gui;
 import no.uib.smo015.info233.oblig2.UIBRoomApp.UibRoomApp;
 import no.uib.smo015.info233.oblig2.Util.InternetUtil;
 
@@ -14,14 +13,11 @@ import no.uib.smo015.info233.oblig2.Util.InternetUtil;
  */
 public class WindowEvent implements WindowListener {
 
-		private Gui gui;
-
 		/**
 		 * Constructor for the WindowEvent class
 		 * @param gui
 		 */
-		public WindowEvent(Gui gui){
-			this.gui = gui;
+		public WindowEvent(){
 		}
 		
 		@Override
