@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -20,10 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 import no.uib.smo015.info233.oblig2.Activity.Activity;
-import no.uib.smo015.info233.oblig2.Events.Event;
-import no.uib.smo015.info233.oblig2.Events.ListEvent;
 import no.uib.smo015.info233.oblig2.Events.WindowEvent;
-import no.uib.smo015.info233.oblig2.Parser.Parser;
 import no.uib.smo015.info233.oblig2.Util.DateUtil;
 
 public class Gui extends JFrame {
@@ -35,7 +33,6 @@ public class Gui extends JFrame {
 	private DefaultListModel<Activity> listModel;
 	private JList<Activity> activityList;
 	private List<Activity> activityDataList;
-	private Parser parser;
 	private JComboBox<String> searchComboBox;
 	private JLabel urlLabel;
 	private JLabel typeLabel;
@@ -48,14 +45,14 @@ public class Gui extends JFrame {
 	private JButton saveButton;
 	private JButton searchButton;
 	private JTextField textField;
+	private static Gui instance = null;
 
 	/**
 	 * Constructor for the gui class
 	 * @param parser
 	 */
-	public Gui(Parser parser){
-		this.parser = parser;
-		activityDataList = parser.getActivityList();
+	private Gui(){
+		activityDataList = new ArrayList<>();
 		setupFrame();
 		createPanels();
 		setupTopPanel();
@@ -64,6 +61,13 @@ public class Gui extends JFrame {
 		setupActivityLabels();
 		this.setVisible(true);
 	}
+	
+	public static synchronized Gui getInstance(){
+		if(instance == null){
+			instance = new Gui();
+		}
+		return instance;
+	}
 
 	/**
 	 * Method to show the information for an activity
@@ -71,7 +75,6 @@ public class Gui extends JFrame {
 	private void setupActivityList() {
 		listModel = new DefaultListModel<Activity>();
 		activityList = new JList<>(listModel);
-		activityList.addListSelectionListener(new ListEvent(this));
 		activityList.setSelectedIndex(0);
 		JScrollPane listScrollPane = new JScrollPane(activityList);
 		centerPanel.add(listScrollPane, BorderLayout.NORTH);		
@@ -90,7 +93,7 @@ public class Gui extends JFrame {
 		roomLabel = new JLabel("Rom: ");
 		timeStartLabel = new JLabel("Starter: ");
 		timeEndLabel = new JLabel("Slutter: ");
-		
+			
 		weekDayLabel.setFont(font);
 		typeLabel.setFont(font);
 		descLabel.setFont(font);
@@ -129,7 +132,6 @@ public class Gui extends JFrame {
 	 */
 	private void setupTopPanel(){
 		setLoadButton(new JButton("Last aktiviteter fra fil"));
-		getLoadButton().addActionListener(new Event(this));
 		topPanel.add(getLoadButton());
 		String[] topics = {"info233", "info110", "info132", "info262", "info216", "info125", "inf144", "NOLI103"};
 		searchComboBox = new JComboBox<>(topics);
@@ -145,10 +147,7 @@ public class Gui extends JFrame {
 		weekLabel.setFont(font);
 		topPanel.add(weekLabel);
 		saveButton = new JButton("Lagre aktive aktivitet");
-		saveButton.addActionListener(new Event(this));
 		topPanel.add(saveButton);
-		Event e = new Event(this);
-		searchComboBox.addActionListener(e);
 	}
 	
 	/**
@@ -160,7 +159,6 @@ public class Gui extends JFrame {
 		setTextField(new JTextField(20));
 		bottomPanel.add(getTextField());
 		setSearchButton(new JButton("Search"));
-		getSearchButton().addActionListener(new Event(this));
 		bottomPanel.add(getSearchButton());
 		urlLabel = new JLabel("");
 		bottomPanel.add(urlLabel);
@@ -296,19 +294,6 @@ public class Gui extends JFrame {
 		this.activityDataList = activityDataList;
 	}
 
-	/**
-	 * @return the parser
-	 */
-	public Parser getParser() {
-		return parser;
-	}
-
-	/**
-	 * @param parser the parser to set
-	 */
-	public void setParser(Parser parser) {
-		this.parser = parser;
-	}
 
 	/**
 	 * @return the searchComboBox

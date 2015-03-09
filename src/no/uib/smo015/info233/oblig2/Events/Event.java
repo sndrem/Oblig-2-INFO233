@@ -29,8 +29,8 @@ public class Event implements ActionListener {
 	 * Constructor for the Event class
 	 * @param gui
 	 */
-	public Event(Gui gui){
-		this.gui = gui;
+	public Event(){
+		this.gui = Gui.getInstance();
 	}
 
 	/**

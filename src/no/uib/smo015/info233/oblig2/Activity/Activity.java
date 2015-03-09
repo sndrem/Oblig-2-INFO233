@@ -51,8 +51,6 @@ public class Activity implements ActivityInterface, Serializable {
 	}
 
 	public String toString(){
-//		SimpleDateFormat sdf = new SimpleDateFormat("EEEE/ dd-MM- yyyy HH:mm");
-		
 		SimpleDateFormat sdf = new SimpleDateFormat("EEEE dd MMM. yyyy HH:mm");
 		String info = type + ", Bygg: " + room + ", " +  sdf.format(startTime.getTime()) + " og slutter " + sdf.format(endTime.getTime()) + " "
 				+ " Beskrivelse: " + description;

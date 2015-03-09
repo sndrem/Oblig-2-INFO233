@@ -12,8 +12,8 @@ public class ListEvent implements ListSelectionListener {
 	
 	private Gui gui;
 	
-	public ListEvent(Gui gui){
-		this.gui = gui;
+	public ListEvent(){
+		this.gui = Gui.getInstance();
 	}
 
 	@Override

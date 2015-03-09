@@ -16,6 +16,8 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import no.uib.smo015.info233.oblig2.Activity.Activity;
+import no.uib.smo015.info233.oblig2.Events.Event;
+import no.uib.smo015.info233.oblig2.Events.ListEvent;
 import no.uib.smo015.info233.oblig2.GUI.Gui;
 import no.uib.smo015.info233.oblig2.Parser.Parser;
 import no.uib.smo015.info233.oblig2.Util.InternetUtil;
@@ -38,10 +40,11 @@ public class UibRoomApp {
 	public static void main(String[] args) {
 
 		parser = new Parser("http://rom.app.uib.no/ukesoversikt/?entry=emne&input=info233");
-
+		
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				gui = new Gui(parser);
+				gui = Gui.getInstance();
+				assignActionListeners();
 				if(InternetUtil.hasConnectivity()){
 					populateList(parser, gui.getListModel());
 					gui.getActivityList().setSelectedIndex(0);
@@ -58,6 +61,17 @@ public class UibRoomApp {
 				}					
 			}
 		});
+	}
+
+	/**
+	 * Method to assign actionListeners to the gui components
+	 */
+	private static void assignActionListeners(){
+		gui.getLoadButton().addActionListener(new Event());
+		gui.getSaveButton().addActionListener(new Event());
+		gui.getSearchButton().addActionListener(new Event());
+		gui.getSearchComboBox().addActionListener(new Event());
+		gui.getActivityList().addListSelectionListener(new ListEvent());
 	}
 	
 	/**
