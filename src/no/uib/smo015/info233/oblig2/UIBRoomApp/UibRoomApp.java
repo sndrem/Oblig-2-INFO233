@@ -151,7 +151,7 @@ public class UibRoomApp {
 	 * @return a list of activities
 	 */
 	@SuppressWarnings("unchecked")
-		public static List<Activity> readFromFile(String fileName) {
+		public static List<Activity> readFromFile(String fileName){
 			File inputFile = new File(fileName + ".ser");
 			if (inputFile.exists()) {
 				FileInputStream input = null;
