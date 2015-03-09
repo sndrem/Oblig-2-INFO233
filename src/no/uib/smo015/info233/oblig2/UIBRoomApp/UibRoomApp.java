@@ -49,7 +49,6 @@ public class UibRoomApp {
 					populateList(parser, gui.getListModel());
 					gui.getActivityList().setSelectedIndex(0);
 					gui.getUrlLabel().setText("Status ok");
-					gui.getLoadButton().setEnabled(false);
 				} else {
 					List<Activity> activityList = readFromFile("testGui2");
 					DefaultListModel<Activity> activityModel = new DefaultListModel<>();
