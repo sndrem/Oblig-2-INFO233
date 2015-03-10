@@ -9,7 +9,7 @@ import org.junit.runners.Suite.SuiteClasses;
  *
  */
 @RunWith(Suite.class)
-@SuiteClasses({DateUtilTest.class, ParserTest.class })
+@SuiteClasses({DateUtilTest.class, ParserTest.class, UibRoomAppTest.class })
 public class AllTests {
 
 }

@@ -17,14 +17,13 @@ import org.junit.Test;
 
 public class ParserTest {
 	private Parser testParser;
-	private String url = "http://rom.app.uib.no/ukesoversikt/?entry=emne&input=info233";
+	private String url = "http://rom.app.uib.no/ukesoversikt/?entry=emne&input=info233&printweek=8";
 	private String htmlTest;
-	private int numberOfNodes;
 
 	@Before
 	public void setUp() throws Exception {
 		testParser = new Parser(url);
-		htmlTest = "<head>	"
+		htmlTest ="<head>	"
 				+ "<title>Hey, en testfil her</title>"
 				+ "</head>"
 				+ "<body>"
@@ -32,7 +31,6 @@ public class ParserTest {
 				+ "</body>"
 			    + "</html>";
 		
-		numberOfNodes = 0;
 		
 	}
 
@@ -69,17 +67,16 @@ public class ParserTest {
 		List<Node> activityList = new ArrayList<>();
 		testParser.nodesToList(root, null, activityList);
 		
-		
 		Activity activity1 = testParser.getActivityList().get(0);
 		Activity activity2 = new Activity(null, "INFO233 lab", "PC-lab 205", "UP:205", "Labgruppe 1", "10:15", "12:00", "Tirsdag 17.02.2015");
 	
 		assertEquals(activity1.getType(), activity2.getType());
 		assertEquals(activity1.getRoom(), activity2.getRoom());
 		assertEquals(activity1.getDescription(), activity2.getDescription());
-		assertEquals(activity1.getStartTime(), activity2.getStartTime());
-		assertEquals(activity1.getEndTime(), activity2.getEndTime());
-		
+		assertEquals(activity1.getStartTimeString(), activity2.getStartTimeString());
+		assertEquals(activity1.getEndTimeString(), activity2.getEndTimeString());
 		
 	}
+
 
 }
