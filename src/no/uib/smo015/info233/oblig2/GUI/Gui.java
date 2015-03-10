@@ -18,6 +18,8 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.TitledBorder;
 
 import no.uib.smo015.info233.oblig2.Activity.Activity;
@@ -52,6 +54,17 @@ public class Gui extends JFrame {
 	 * @param parser
 	 */
 	private Gui(){
+		try {
+			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+				if ("Nimbus".equals(info.getName())) {
+					UIManager.setLookAndFeel(info.getClassName());
+					break;
+				}
+			}
+		} catch (Exception e) {
+			// If Nimbus is not available, you can set the GUI to another look and feel.
+		}
+		
 		activityDataList = new ArrayList<>();
 		setupFrame();
 		createPanels();
